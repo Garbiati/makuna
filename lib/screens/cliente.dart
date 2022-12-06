@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:makuna/models/cliente.dart';
-import 'package:makuna/screens/addCliente.dart';
+import 'package:makuna/screens/clienteAdicionar.dart';
 import 'package:makuna/utils/customStyles.dart';
 import 'package:makuna/utils/customWidgets.dart';
 import 'package:makuna/daos/cliente_dao.dart';
@@ -14,7 +14,7 @@ class ClienteScreen extends StatefulWidget {
 
 class _ClienteScreenState extends State<ClienteScreen> {
   final title = const Text("Cadastro de Clientes");
-  final addRoute = const AddClienteScreen();
+  final addRoute = const ClienteAdicionarScreen();
 
   List<Cliente> clientes = [];
 

@@ -3,7 +3,7 @@ import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:makuna/daos/produto_dao.dart';
 import 'package:makuna/models/produto.dart';
-import 'package:makuna/screens/addProduto.dart';
+import 'package:makuna/screens/produtoAdicionar.dart';
 import 'package:makuna/utils/customStyles.dart';
 import 'package:makuna/utils/customWidgets.dart';
 
@@ -16,7 +16,7 @@ class ProdutoScreen extends StatefulWidget {
 
 class _ProdutoScreenState extends State<ProdutoScreen> {
   final title = const Text("Cadastro de Produtos");
-  final addRoute = const AddProdutoScreen();
+  final addRoute = const ProdutoAdicionarScreen();
 
   List<Produto> produtos = [];
 

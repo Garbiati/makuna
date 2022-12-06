@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:makuna/daos/venda_dao.dart';
 import 'package:makuna/models/venda.dart';
-import 'package:makuna/screens/addVenda.dart';
+import 'package:makuna/screens/vendaAdicionar.dart';
 import 'package:makuna/utils/customStyles.dart';
 import 'package:makuna/utils/customWidgets.dart';
 
@@ -14,7 +14,7 @@ class VendaScreen extends StatefulWidget {
 
 class _VendaScreenState extends State<VendaScreen> {
   final title = const Text("Histórico de vendas");
-  final addRoute = const AddVendaScreen();
+  final addRoute = const VendaAdicionarScreen();
 
   List<Venda> vendas = [];
 

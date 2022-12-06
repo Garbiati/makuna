@@ -5,14 +5,14 @@ import 'package:makuna/models/cliente.dart';
 import 'package:makuna/utils/customStyles.dart';
 import 'package:makuna/utils/customWidgets.dart';
 
-class AddClienteScreen extends StatefulWidget {
-  const AddClienteScreen({super.key});
+class ClienteAdicionarScreen extends StatefulWidget {
+  const ClienteAdicionarScreen({super.key});
 
   @override
-  State<AddClienteScreen> createState() => _AddClienteScreenState();
+  State<ClienteAdicionarScreen> createState() => _ClienteAdicionarScreenState();
 }
 
-class _AddClienteScreenState extends State<AddClienteScreen> {
+class _ClienteAdicionarScreenState extends State<ClienteAdicionarScreen> {
   final _formKey = GlobalKey<FormState>();
   final _nomeController = TextEditingController();
   final _telefoneController = TextEditingController();

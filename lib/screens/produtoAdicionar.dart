@@ -6,14 +6,14 @@ import 'package:makuna/utils/customStyles.dart';
 import 'package:makuna/utils/customWidgets.dart';
 import 'package:intl/intl.dart';
 
-class AddProdutoScreen extends StatefulWidget {
-  const AddProdutoScreen({super.key});
+class ProdutoAdicionarScreen extends StatefulWidget {
+  const ProdutoAdicionarScreen({super.key});
 
   @override
-  State<AddProdutoScreen> createState() => _AddProdutoScreenState();
+  State<ProdutoAdicionarScreen> createState() => _ProdutoAdicionarScreenState();
 }
 
-class _AddProdutoScreenState extends State<AddProdutoScreen> {
+class _ProdutoAdicionarScreenState extends State<ProdutoAdicionarScreen> {
   final _formKey = GlobalKey<FormState>();
   final _nomeController = TextEditingController();
   final _descricaoController = TextEditingController();

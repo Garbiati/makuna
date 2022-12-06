@@ -17,6 +17,7 @@ dependencies:
   sqflite: ^2.2.0+3
   path: ^1.8.2
   intl: ^0.17.0
+  snippet_coder_utils: ^1.0.12
 
 dev_dependencies:
   flutter_test:
