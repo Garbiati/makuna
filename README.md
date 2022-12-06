@@ -1,16 +1,13 @@
 # makuna
 
-A new Flutter project.
+Projeto para conclusão do módulo Engenharia Mobile da Pós graduação MBA de Engenharia de Software na FIAP.
 
-## Getting Started
+## Objetivo
+Criar um app simples e funcional para o registro e controle de revenda de itens importados.
+O usuário cadastra préviamente os produtos de seu inventário, informando descrições do produto e seu valor de custo.
+Ao realizar uma venda, o usuário pode informar o valor real da venda, fazendo um comparativo do previsto verso realizado.
 
-This project is a starting point for a Flutter application.
+#Futuro
+É esperado um relatório com base nas vendas, quais produtos possuem mais vendas, quais possuem maior margem de lucro, qual o cliente mais assíduo e qual mais lucrativo.
+O aplicativo não tem intenção de realizar pagamentos, e sim de armazenar métodos e comprovantes de pagamentos da venda.
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
