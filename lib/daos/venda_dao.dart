@@ -8,14 +8,14 @@ class VendaDAO {
         await openDatabase(join(await getDatabasesPath(), 'venda_database.db'),
             onCreate: ((db, version) {
       return db.execute(
-          "CREATE TABLE Venda(id INTEGER PRIMARY KEY, clienteId INT, produtoId INT, dataCompra DATETIME, valorCompra DOUBLE, valorVendaPrevisao DOUBLE, dataVenda DATETIME)");
+          "CREATE TABLE Venda(id INTEGER PRIMARY KEY, clienteId INT, produtoId INT, valorVenda DOUBLE, descricao TEXT, dataVenda TEXT)");
     }), version: 1);
     return db;
   }
 
   Future<List<Venda>> readAll() async {
     final db = await getDatabase();
-    final List<Map<String, dynamic>> maps = await db.query("Produto");
+    final List<Map<String, dynamic>> maps = await db.query("Venda");
 
     final result = List.generate(maps.length, (index) {
       return Venda(
@@ -23,7 +23,7 @@ class VendaDAO {
         clienteId: maps[index]['clienteId'],
         produtoId: maps[index]['produtoId'],
         valorVenda: maps[index]['valorVenda'],
-        descricao: maps[index]['telefone'],
+        descricao: maps[index]['descricao'],
         dataVenda: maps[index]['dataVenda'],
       );
     });

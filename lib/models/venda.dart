@@ -4,7 +4,7 @@ class Venda {
   final int produtoId;
   final double valorVenda;
   final String descricao;
-  final DateTime dataVenda;
+  final String dataVenda;
 
   Venda(
       {this.id,
