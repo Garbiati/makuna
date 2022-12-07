@@ -1,3 +1,4 @@
+import 'package:makuna/daos/scripts.dart';
 import 'package:makuna/models/cliente.dart';
 import 'package:path/path.dart' show join;
 import 'package:sqflite/sqflite.dart';
@@ -7,8 +8,7 @@ class ClienteDAO {
     Database db = await openDatabase(
         join(await getDatabasesPath(), 'cliente_database.db'),
         onCreate: ((db, version) {
-      return db.execute(
-          "CREATE TABLE Cliente(id INTEGER PRIMARY KEY, nome TEXT, telefone TEXT)");
+      return db.execute(createTableCliente);
     }), version: 1);
     return db;
   }
@@ -19,9 +19,13 @@ class ClienteDAO {
 
     final result = List.generate(maps.length, (index) {
       return Cliente(
-          id: maps[index]['id'],
-          nome: maps[index]['nome'],
-          telefone: maps[index]['telefone']);
+        id: maps[index]['id'],
+        nome: maps[index]['nome'],
+        telefone: maps[index]['telefone'],
+        email: maps[index]['email'],
+        urlAvatar: maps[index]['urlAvatar'],
+        dataCadastro: maps[index]['dataCadastro'],
+      );
     });
 
     return result;
@@ -34,9 +38,13 @@ class ClienteDAO {
 
     final result = List.generate(maps.length, (index) {
       return Cliente(
-          id: maps[index]['id'],
-          nome: maps[index]['nome'],
-          telefone: maps[index]['telefone']);
+        id: maps[index]['id'],
+        nome: maps[index]['nome'],
+        telefone: maps[index]['telefone'],
+        email: maps[index]['email'],
+        urlAvatar: maps[index]['urlAvatar'],
+        dataCadastro: maps[index]['dataCadastro'],
+      );
     }).first;
 
     return result;

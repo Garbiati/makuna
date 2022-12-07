@@ -8,7 +8,7 @@ import '../utils/customWidgets.dart';
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key, required String title});
 
-  final title = const Text("Makuna");
+  final title = const Text("Makuna, controle de revendas.");
 
   @override
   Widget build(BuildContext context) {
@@ -16,20 +16,20 @@ class HomeScreen extends StatelessWidget {
       appBar: AppBar(title: title),
       body: ListView(children: [
         const ListHomeItem(
-            path: "images/003-clipboard.svg",
-            title: "Produtos",
+            path: "images/MenuProduto.svg",
+            title: "Meus produtos",
             subtitle: "Lista de Produtos",
             route: "/produto"),
         divisorList(),
         const ListHomeItem(
-            path: "images/005-laptop.svg",
-            title: "Clientes",
+            path: "images/MenuCliente.svg",
+            title: "Meus clientes",
             subtitle: "Lista de Clientes",
             route: "/cliente"),
         divisorList(),
         const ListHomeItem(
-            path: "images/006-cart.svg",
-            title: "Vendas",
+            path: "images/MenuVenda.svg",
+            title: "Minhas Vendas",
             subtitle: "Listar e realizar vendas",
             route: "/venda"),
         divisorList(),

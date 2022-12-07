@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 
 class InputForm extends StatelessWidget {
   const InputForm({
@@ -7,18 +8,27 @@ class InputForm extends StatelessWidget {
     required this.label,
     required this.validationMsg,
     required this.controller,
-    });
-    
+    this.customMask,
+    this.tipoImput,
+  });
+
   final String hint;
   final String label;
   final String validationMsg;
   final TextEditingController controller;
+  final TextInputType? tipoImput;
+  final String? customMask;
 
   @override
   Widget build(BuildContext context) {
+    var mask = MaskTextInputFormatter(mask: customMask);
+
     return TextFormField(
+        inputFormatters: [mask],
+        keyboardType: tipoImput,
         decoration: InputDecoration(hintText: hint, labelText: label),
         controller: controller,
+        autovalidateMode: AutovalidateMode.onUserInteraction,
         validator: ((value) {
           if (value == null || value.isEmpty) {
             return validationMsg;

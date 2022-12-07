@@ -18,6 +18,9 @@ dependencies:
   path: ^1.8.2
   intl: ^0.17.0
   snippet_coder_utils: ^1.0.12
+  mask_text_input_formatter: ^2.4.0
+  avatars: ^3.0.0
+  brasil_fields: 1.8.0
 
 dev_dependencies:
   flutter_test:
@@ -27,11 +30,15 @@ dev_dependencies:
 flutter:
   uses-material-design: true
 
-  assets:
+  assets: 
+  - images/MenuCliente.svg
+  - images/MenuProduto.svg
+  - images/MenuVenda.svg
   - images/007-list.svg
   - images/003-clipboard.svg
   - images/006-cart.svg
   - images/005-laptop.svg
+  - images/avatarUsuario.svg
 
 
   

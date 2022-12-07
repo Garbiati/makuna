@@ -1,7 +1,7 @@
+import 'package:avatars/avatars.dart';
 import 'package:flutter/material.dart';
 import 'package:makuna/models/cliente.dart';
-import 'package:makuna/screens/clienteAdicionar.dart';
-import 'package:makuna/screens/clienteDetalhe.dart';
+import 'package:makuna/screens/clienteCadastro.dart';
 import 'package:makuna/utils/customStyles.dart';
 import 'package:makuna/utils/customWidgets.dart';
 import 'package:makuna/daos/cliente_dao.dart';
@@ -14,8 +14,7 @@ class ClienteScreen extends StatefulWidget {
 }
 
 class _ClienteScreenState extends State<ClienteScreen> {
-  final title = const Text("Cadastro de Clientes");
-  final addRoute = const ClienteAdicionarScreen();
+  final title = const Text("Meus clientes");
 
   List<Cliente> clientes = [];
 
@@ -43,9 +42,12 @@ class _ClienteScreenState extends State<ClienteScreen> {
       appBar: AppBar(title: title, actions: [
         IconButton(
             onPressed: () {
-              Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => addRoute))
-                  .then((cliente) => getAllClientes());
+              Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => ClienteCadastroScreen(
+                              cliente: _criarNovoCliente())))
+                  .then((produto) => getAllClientes());
             },
             icon: addIcon)
       ]),
@@ -63,7 +65,7 @@ class _ClienteScreenState extends State<ClienteScreen> {
       child: Container(
         decoration: cardBoxStyle(),
         child: ListTile(
-          leading: Text(cliente.id.toString()),
+          leading: fieldAvatar(cliente),
           title: Text(cliente.nome),
           subtitle: Text(cliente.telefone),
           onLongPress: () {
@@ -74,11 +76,29 @@ class _ClienteScreenState extends State<ClienteScreen> {
                     context,
                     MaterialPageRoute(
                         builder: (context) =>
-                            ClienteDetalheScreen(cliente: cliente)))
+                            ClienteCadastroScreen(cliente: cliente)))
                 .then((produto) => getAllClientes());
           },
         ),
       ),
     );
+  }
+
+  Widget fieldAvatar(Cliente cliente) => Avatar(
+        sources: [
+          GravatarSource(cliente.email!, 300),
+          //...
+        ],
+        name: cliente.nome.isEmpty ? "?" : cliente.nome,
+      );
+
+  Cliente _criarNovoCliente() {
+    return Cliente(
+        id: 0,
+        nome: "",
+        telefone: "",
+        email: "",
+        urlAvatar: "",
+        dataCadastro: "");
   }
 }
