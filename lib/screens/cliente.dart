@@ -15,9 +15,7 @@ class ClienteScreen extends StatefulWidget {
 
 class _ClienteScreenState extends State<ClienteScreen> {
   final title = const Text("Meus clientes");
-
   List<Cliente> clientes = [];
-
   @override
   void initState() {
     super.initState();
@@ -87,7 +85,6 @@ class _ClienteScreenState extends State<ClienteScreen> {
   Widget fieldAvatar(Cliente cliente) => Avatar(
         sources: [
           GravatarSource(cliente.email!, 300),
-          //...
         ],
         name: cliente.nome.isEmpty ? "?" : cliente.nome,
       );

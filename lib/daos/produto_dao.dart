@@ -1,3 +1,4 @@
+import 'package:makuna/daos/scripts.dart';
 import 'package:makuna/models/produto.dart';
 import 'package:path/path.dart' show join;
 import 'package:sqflite/sqflite.dart';
@@ -7,8 +8,7 @@ class ProdutoDAO {
     Database db = await openDatabase(
         join(await getDatabasesPath(), 'produto_database.db'),
         onCreate: ((db, version) {
-      return db.execute(
-          "CREATE TABLE Produto(id INTEGER PRIMARY KEY, nome TEXT, descricao TEXT, dataCompra TEXT, valorCompra DOUBLE, valorVendaPrevisao DOUBLE)");
+      return db.execute(createTableProduto);
     }), version: 1);
     return db;
   }

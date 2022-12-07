@@ -24,6 +24,7 @@ class InputDataForm extends StatelessWidget {
           FilteringTextInputFormatter.digitsOnly,
           DataInputFormatter()
         ],
+        maxLength: 10,
         keyboardType: TextInputType.datetime,
         decoration: InputDecoration(hintText: hint, labelText: label),
         controller: controller,
@@ -31,6 +32,12 @@ class InputDataForm extends StatelessWidget {
         validator: ((value) {
           if (value == null || value.isEmpty) {
             return validationMsg;
+          }
+
+          try {
+            UtilData.obterDateTime(value);
+          } catch (e) {
+            return "Formato de data inválida";
           }
           return null;
         }));

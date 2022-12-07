@@ -31,7 +31,6 @@ class InputForm extends StatelessWidget {
         maxLength: maxLength,
         decoration: InputDecoration(hintText: hint, labelText: label),
         controller: controller,
-        autovalidateMode: AutovalidateMode.onUserInteraction,
         validator: ((value) {
           if (value == null || value.isEmpty) {
             return validationMsg;

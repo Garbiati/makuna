@@ -1,3 +1,4 @@
+import 'package:brasil_fields/brasil_fields.dart';
 import 'package:flutter/material.dart';
 import 'package:makuna/components/SnackBAR.dart';
 import 'package:makuna/components/brasilFields.dart';
@@ -38,6 +39,10 @@ class _ProdutoCadastroScreenState extends State<ProdutoCadastroScreen> {
 
   @override
   Widget build(BuildContext context) {
+    checkModoTela();
+    configuraTitulo();
+    preencherCampos();
+
     return Scaffold(
         appBar: AppBar(
           title: Text(tituloTela),
@@ -57,15 +62,19 @@ class _ProdutoCadastroScreenState extends State<ProdutoCadastroScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       InputForm(
-                          hint: "Ex.: iPhone 14, RTX 4090",
-                          label: "Nome do produto",
-                          validationMsg: "Insira o nome do produto",
-                          controller: _nomeController),
+                        hint: "Ex.: iPhone 14, RTX 4090",
+                        label: "Nome do produto",
+                        validationMsg: "Insira o nome do produto",
+                        controller: _nomeController,
+                        maxLength: 50,
+                      ),
                       InputForm(
-                          hint: "Ex.: Pro Max preto 500 GB",
-                          label: "Descrição do produto",
-                          validationMsg: "Insira a descrição do produto",
-                          controller: _descricaoController),
+                        hint: "Ex.: Pro Max preto 500 GB",
+                        label: "Descrição do produto",
+                        validationMsg: "Insira a descrição do produto",
+                        controller: _descricaoController,
+                        maxLength: 50,
+                      ),
                       InputDataForm(
                           hint: "Ex.: 25/10/2022",
                           label: "Data do produto",
@@ -84,6 +93,28 @@ class _ProdutoCadastroScreenState extends State<ProdutoCadastroScreen> {
                     ]))));
   }
 
+//Telas e validações
+  void checkModoTela() {
+    widget.produto.id! > 0 ? modoTela = "E" : modoTela = "N";
+  }
+
+  void configuraTitulo() {
+    modoTela == "N"
+        ? tituloTela = "Novo produto"
+        : tituloTela = "Atualizar produto";
+  }
+
+  void preencherCampos() {
+    if (modoTela == "E") {
+      _nomeController.text = widget.produto.nome;
+      _descricaoController.text = widget.produto.descricao;
+      _dataCompraController.text = widget.produto.dataCompra;
+      _valorCompraController.text = widget.produto.valorCompra.toString();
+      _valorVendaPrevisaoController.text =
+          widget.produto.valorVendaPrevisao.toString();
+    }
+  }
+
   void salvarFormulario() {
     if (_formKey.currentState!.validate()) {
       try {
@@ -92,9 +123,11 @@ class _ProdutoCadastroScreenState extends State<ProdutoCadastroScreen> {
             nome: _nomeController.text,
             descricao: _descricaoController.text,
             dataCompra: _dataCompraController.text,
-            valorCompra: double.parse(_valorCompraController.text),
-            valorVendaPrevisao:
-                double.parse(_valorVendaPrevisaoController.text),
+            valorCompra: double.parse(UtilBrasilFields.removerSimboloMoeda(
+                _valorCompraController.text)),
+            valorVendaPrevisao: double.parse(
+                UtilBrasilFields.removerSimboloMoeda(
+                    _valorVendaPrevisaoController.text)),
           );
           insertProduto(produto);
           showSnackBAR("Produto registrado com sucesso.", context,

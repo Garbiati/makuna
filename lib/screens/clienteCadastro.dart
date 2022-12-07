@@ -5,7 +5,6 @@ import 'package:makuna/components/input_form.dart';
 import 'package:makuna/daos/cliente_dao.dart';
 import 'package:makuna/models/cliente.dart';
 import 'package:makuna/utils/customStyles.dart';
-
 import '../components/input_email_form.dart';
 
 class ClienteCadastroScreen extends StatefulWidget {
@@ -72,7 +71,7 @@ class _ClienteCadastroScreenState extends State<ClienteCadastroScreen> {
       label: "Nome do cliente",
       validationMsg: "Insira o nome do cliente",
       controller: _nomeController,
-      maxLength: 200,
+      maxLength: 50,
     );
   }
 
@@ -94,7 +93,6 @@ class _ClienteCadastroScreenState extends State<ClienteCadastroScreen> {
       label: "Email do cliente",
       validationMsg: "Insira o email do cliente",
       controller: _emailController,
-      
     );
   }
 
@@ -102,7 +100,7 @@ class _ClienteCadastroScreenState extends State<ClienteCadastroScreen> {
   void checkModoTela() {
     widget.cliente.id! > 0 ? modoTela = "E" : modoTela = "N";
   }
-
+  
   void configuraTitulo() {
     modoTela == "N"
         ? tituloTela = "Novo cadastro de cliente"
