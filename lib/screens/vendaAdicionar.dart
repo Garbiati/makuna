@@ -21,35 +21,15 @@ class VendaAdicionarScreen extends StatefulWidget {
 
 class _VendaAdicionarScreenState extends State<VendaAdicionarScreen> {
   final _formKey = GlobalKey<FormState>();
-  //final _produtoIdController = TextEditingController();
-  final _clienteIdController = TextEditingController();
   final _valorVendaCompraController = TextEditingController();
   final _descricaoController = TextEditingController();
   final _dataVendaController = TextEditingController();
-  Produto produtoSelecionado = Produto(
-      id: 9999,
-      nome: "nome",
-      descricao: "descricao",
-      dataCompra: "02/02/2022",
-      valorCompra: 0,
-      valorVendaPrevisao: 0);
 
-  Cliente clienteSelecionado =
-      Cliente(id: 9999, nome: "nome", telefone: "telefone");
+  int produtoIdSelecionado = 0;
+  int clienteIdSelecionado = 0;
 
-  List<Produto> produtos = <Produto>[
-    Produto(
-        id: 9999,
-        nome: "nome",
-        descricao: "descricao",
-        dataCompra: "02/02/2022",
-        valorCompra: 0,
-        valorVendaPrevisao: 0)
-  ];
-
-  List<Cliente> clientes = <Cliente>[
-    Cliente(id: 9999, nome: "nome", telefone: "telefone")
-  ];
+  List<Produto> produtos = [];
+  List<Cliente> clientes = [];
 
   @override
   void initState() {
@@ -85,6 +65,10 @@ class _VendaAdicionarScreenState extends State<VendaAdicionarScreen> {
       return {"id": e.id, "nome": e.nome};
     }).toList();
 
+    var clientesMap = clientes.map((e) {
+      return {"id": e.id, "nome": e.nome};
+    }).toList();
+
     return Scaffold(
         appBar: AppBar(title: const Text("Nova Venda")),
         body: Padding(
@@ -101,8 +85,7 @@ class _VendaAdicionarScreenState extends State<VendaAdicionarScreen> {
                         "",
                         produtosMap,
                         (onChangedVal) {
-                          produtoSelecionado = onChangedVal;
-                          
+                          produtoIdSelecionado = int.parse(onChangedVal);
                         },
                         (onValidateVal) {
                           if (onValidateVal == null) {
@@ -117,11 +100,28 @@ class _VendaAdicionarScreenState extends State<VendaAdicionarScreen> {
                         optionValue: "id",
                         optionLabel: "nome",
                       ),
-                      InputForm(
-                          hint: "Digite o id do cliente",
-                          label: "ID do cliente",
-                          validationMsg: "Insira o ID do cliente",
-                          controller: _clienteIdController),
+                      FormHelper.dropDownWidgetWithLabel(
+                        context,
+                        "Selecione o cliente",
+                        "Nome do cliente",
+                        "",
+                        clientesMap,
+                        (onChangedVal) {
+                          clienteIdSelecionado = int.parse(onChangedVal);
+                        },
+                        (onValidateVal) {
+                          if (onValidateVal == null) {
+                            return "Por favor, selecione um cliente";
+                          }
+
+                          return null;
+                        },
+                        borderFocusColor: Theme.of(context).primaryColor,
+                        borderColor: Theme.of(context).primaryColor,
+                        borderRadius: 10,
+                        optionValue: "id",
+                        optionLabel: "nome",
+                      ),
                       InputForm(
                           hint: "Digite o valor da venda",
                           label: "Valor de venda",
@@ -143,9 +143,8 @@ class _VendaAdicionarScreenState extends State<VendaAdicionarScreen> {
                               onPressed: (() {
                                 if (_formKey.currentState!.validate()) {
                                   Venda venda = Venda(
-                                    produtoId: produtoSelecionado.id!,
-                                    clienteId:
-                                        int.parse(_clienteIdController.text),
+                                    produtoId: produtoIdSelecionado,
+                                    clienteId: clienteIdSelecionado,
                                     valorVenda: double.parse(
                                         _valorVendaCompraController.text),
                                     descricao: _descricaoController.text,

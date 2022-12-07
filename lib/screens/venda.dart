@@ -72,23 +72,27 @@ class _VendaScreenState extends State<VendaScreen> {
         child: ListTile(
           leading: Text(venda.id.toString()),
           title: Text(venda.descricao),
-          subtitle: Text(venda.valorVenda.toString()),
-          onTap: () async {
+          subtitle: Text(venda.dataVenda),
+          onTap: () {
             Venda venda = vendas[index];
-            print(venda.produtoId);
-            print(venda.clienteId);
+            Produto produto;
+            Cliente cliente;
 
-            Produto produto = await ProdutoDAO().getOneById(venda.produtoId);
-            Cliente cliente = await ClienteDAO().getOneById(venda.clienteId);
+            ProdutoDAO().getOneById(venda.produtoId).then((value) {
+              produto = value;
 
-            // ignore: use_build_context_synchronously
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => VendaDetalheScreen(
-                        venda: venda,
-                        cliente: cliente,
-                        produto: produto))).then((venda) => getAllVendas());
+              ClienteDAO().getOneById(venda.clienteId).then((value) {
+                cliente = value;
+
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => VendaDetalheScreen(
+                            venda: venda,
+                            cliente: cliente,
+                            produto: produto))).then((venda) => getAllVendas());
+              });
+            });
           },
           onLongPress: () {
             deleteVendasById(venda.id!);
