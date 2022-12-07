@@ -27,6 +27,21 @@ class ClienteDAO {
     return result;
   }
 
+  Future<Cliente> getOneById(int id) async {
+    final db = await getDatabase();
+    final List<Map<String, dynamic>> maps =
+        await db.query("Cliente", where: ' id = ? ', whereArgs: [id]);
+
+    final result = List.generate(maps.length, (index) {
+      return Cliente(
+          id: maps[index]['id'],
+          nome: maps[index]['nome'],
+          telefone: maps[index]['telefone']);
+    }).first;
+
+    return result;
+  }
+
   Future<int> insertCliente(Cliente cliente) async {
     final db = await getDatabase();
     return db.insert("Cliente", cliente.toMap(),

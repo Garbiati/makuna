@@ -31,6 +31,25 @@ class ProdutoDAO {
     return result;
   }
 
+  Future<Produto> getOneById(int id) async {
+    final db = await getDatabase();
+    final List<Map<String, dynamic>> maps =
+        await db.query("Produto", where: ' id = ? ', whereArgs: [id]);
+
+    final result = List.generate(maps.length, (index) {
+      return Produto(
+        id: maps[index]['id'],
+        nome: maps[index]['nome'],
+        descricao: maps[index]['descricao'],
+        dataCompra: maps[index]['dataCompra'],
+        valorCompra: maps[index]['valorCompra'],
+        valorVendaPrevisao: maps[index]['valorVendaPrevisao'],
+      );
+    }).first;
+
+    return result;
+  }
+
   Future<int> insertProduto(Produto produto) async {
     final db = await getDatabase();
     return db.insert("Produto", produto.toMap(),

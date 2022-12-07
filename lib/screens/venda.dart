@@ -1,7 +1,14 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
+import 'package:makuna/daos/cliente_dao.dart';
+import 'package:makuna/daos/produto_dao.dart';
 import 'package:makuna/daos/venda_dao.dart';
+import 'package:makuna/models/cliente.dart';
+import 'package:makuna/models/produto.dart';
 import 'package:makuna/models/venda.dart';
 import 'package:makuna/screens/vendaAdicionar.dart';
+import 'package:makuna/screens/vendaDetalhe.dart';
 import 'package:makuna/utils/customStyles.dart';
 import 'package:makuna/utils/customWidgets.dart';
 
@@ -57,6 +64,7 @@ class _VendaScreenState extends State<VendaScreen> {
 
   Widget _buildItem(int index) {
     Venda venda = vendas[index];
+
     return Padding(
       padding: cardPadding,
       child: Container(
@@ -65,6 +73,23 @@ class _VendaScreenState extends State<VendaScreen> {
           leading: Text(venda.id.toString()),
           title: Text(venda.descricao),
           subtitle: Text(venda.valorVenda.toString()),
+          onTap: () async {
+            Venda venda = vendas[index];
+            print(venda.produtoId);
+            print(venda.clienteId);
+
+            Produto produto = await ProdutoDAO().getOneById(venda.produtoId);
+            Cliente cliente = await ClienteDAO().getOneById(venda.clienteId);
+
+            // ignore: use_build_context_synchronously
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => VendaDetalheScreen(
+                        venda: venda,
+                        cliente: cliente,
+                        produto: produto))).then((venda) => getAllVendas());
+          },
           onLongPress: () {
             deleteVendasById(venda.id!);
           },

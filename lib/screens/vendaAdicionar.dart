@@ -102,6 +102,7 @@ class _VendaAdicionarScreenState extends State<VendaAdicionarScreen> {
                         produtosMap,
                         (onChangedVal) {
                           produtoSelecionado = onChangedVal;
+                          
                         },
                         (onValidateVal) {
                           if (onValidateVal == null) {
