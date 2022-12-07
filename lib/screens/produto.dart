@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:makuna/daos/produto_dao.dart';
 import 'package:makuna/models/produto.dart';
-import 'package:makuna/screens/produtoAdicionar.dart';
-import 'package:makuna/screens/produtoDetalhe.dart';
+import 'package:makuna/screens/produtoCadastro.dart';
 import 'package:makuna/utils/customStyles.dart';
 import 'package:makuna/utils/customWidgets.dart';
 
@@ -17,7 +14,6 @@ class ProdutoScreen extends StatefulWidget {
 
 class _ProdutoScreenState extends State<ProdutoScreen> {
   final title = const Text("Cadastro de Produtos");
-  final addRoute = const ProdutoAdicionarScreen();
 
   List<Produto> produtos = [];
 
@@ -45,8 +41,11 @@ class _ProdutoScreenState extends State<ProdutoScreen> {
       appBar: AppBar(title: title, actions: [
         IconButton(
             onPressed: () {
-              Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => addRoute))
+              Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => ProdutoCadastroScreen(
+                              produto: _criarNovoProduto())))
                   .then((produto) => getAllProdutos());
             },
             icon: addIcon)
@@ -76,11 +75,22 @@ class _ProdutoScreenState extends State<ProdutoScreen> {
                     context,
                     MaterialPageRoute(
                         builder: (context) =>
-                            ProdutoDetalheScreen(produto: produto)))
+                            ProdutoCadastroScreen(produto: produto)))
                 .then((produto) => getAllProdutos());
           },
         ),
       ),
+    );
+  }
+
+  Produto _criarNovoProduto() {
+    return Produto(
+      id: 0,
+      nome: "",
+      descricao: "",
+      dataCompra: "",
+      valorCompra: 0,
+      valorVendaPrevisao: 0,
     );
   }
 }

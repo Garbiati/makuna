@@ -10,6 +10,7 @@ class InputForm extends StatelessWidget {
     required this.controller,
     this.customMask,
     this.tipoImput,
+    this.maxLength,
   });
 
   final String hint;
@@ -18,6 +19,7 @@ class InputForm extends StatelessWidget {
   final TextEditingController controller;
   final TextInputType? tipoImput;
   final String? customMask;
+  final int? maxLength;
 
   @override
   Widget build(BuildContext context) {
@@ -26,6 +28,7 @@ class InputForm extends StatelessWidget {
     return TextFormField(
         inputFormatters: [mask],
         keyboardType: tipoImput,
+        maxLength: maxLength,
         decoration: InputDecoration(hintText: hint, labelText: label),
         controller: controller,
         autovalidateMode: AutovalidateMode.onUserInteraction,

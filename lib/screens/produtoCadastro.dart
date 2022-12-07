@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:makuna/components/SnackBAR.dart';
+import 'package:makuna/components/brasilFields.dart';
 import 'package:makuna/components/input_form.dart';
 import 'package:makuna/daos/produto_dao.dart';
 import 'package:makuna/models/produto.dart';
@@ -6,14 +8,16 @@ import 'package:makuna/utils/customStyles.dart';
 import 'package:makuna/utils/customWidgets.dart';
 import 'package:intl/intl.dart';
 
-class ProdutoAdicionarScreen extends StatefulWidget {
-  const ProdutoAdicionarScreen({super.key});
+class ProdutoCadastroScreen extends StatefulWidget {
+  const ProdutoCadastroScreen({super.key, required this.produto});
+
+  final Produto produto;
 
   @override
-  State<ProdutoAdicionarScreen> createState() => _ProdutoAdicionarScreenState();
+  State<ProdutoCadastroScreen> createState() => _ProdutoCadastroScreenState();
 }
 
-class _ProdutoAdicionarScreenState extends State<ProdutoAdicionarScreen> {
+class _ProdutoCadastroScreenState extends State<ProdutoCadastroScreen> {
   final _formKey = GlobalKey<FormState>();
   final _nomeController = TextEditingController();
   final _descricaoController = TextEditingController();
@@ -28,10 +32,23 @@ class _ProdutoAdicionarScreenState extends State<ProdutoAdicionarScreen> {
     });
   }
 
+  // N= Novo E = Editando
+  String modoTela = '';
+  String tituloTela = '';
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(title: const Text("Novo Produto")),
+        appBar: AppBar(
+          title: Text(tituloTela),
+          actions: [
+            IconButton(
+                icon: const Icon(Icons.save),
+                onPressed: () {
+                  salvarFormulario();
+                })
+          ],
+        ),
         body: Padding(
             padding: cardPadding,
             child: Form(
@@ -40,49 +57,58 @@ class _ProdutoAdicionarScreenState extends State<ProdutoAdicionarScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       InputForm(
-                          hint: "Digite o nome do produto",
+                          hint: "Ex.: iPhone 14, RTX 4090",
                           label: "Nome do produto",
                           validationMsg: "Insira o nome do produto",
                           controller: _nomeController),
                       InputForm(
-                          hint: "Digite uma descrição do produto",
+                          hint: "Ex.: Pro Max preto 500 GB",
                           label: "Descrição do produto",
                           validationMsg: "Insira a descrição do produto",
                           controller: _descricaoController),
-                      InputForm(
-                          hint: "Digite a data da compra",
+                      InputDataForm(
+                          hint: "Ex.: 25/10/2022",
                           label: "Data do produto",
                           validationMsg: "Insira a data da compra",
                           controller: _dataCompraController),
-                      InputForm(
+                      InputRealForm(
                           hint: "Digite o custo do produto",
                           label: "Custo do produto",
                           validationMsg: "Insira o valor de custo",
                           controller: _valorCompraController),
-                      InputForm(
+                      InputRealForm(
                           hint: "Digite o valor de venda",
                           label: "valor previsto de venda",
                           validationMsg: "Insira o valor que pretende vender",
                           controller: _valorVendaPrevisaoController),
-                      Padding(
-                          padding: cardPadding,
-                          child: ElevatedButton(
-                              onPressed: (() {
-                                if (_formKey.currentState!.validate()) {
-                                  Produto produto = Produto(
-                                    nome: _nomeController.text,
-                                    descricao: _descricaoController.text,
-                                    dataCompra: _dataCompraController.text,
-                                    valorCompra: double.parse(
-                                        _valorCompraController.text),
-                                    valorVendaPrevisao: double.parse(
-                                        _valorVendaPrevisaoController.text),
-                                  );
-                                  insertProduto(produto);
-                                  Navigator.pop(context);
-                                }
-                              }),
-                              child: salvarText))
                     ]))));
+  }
+
+  void salvarFormulario() {
+    if (_formKey.currentState!.validate()) {
+      try {
+        if (modoTela == "N") {
+          Produto produto = Produto(
+            nome: _nomeController.text,
+            descricao: _descricaoController.text,
+            dataCompra: _dataCompraController.text,
+            valorCompra: double.parse(_valorCompraController.text),
+            valorVendaPrevisao:
+                double.parse(_valorVendaPrevisaoController.text),
+          );
+          insertProduto(produto);
+          showSnackBAR("Produto registrado com sucesso.", context,
+              Colors.lightBlue, Colors.black);
+          Navigator.pop(context);
+        } else {
+          showSnackBAR("Produto atualizado com sucesso.", context,
+              Colors.lightBlue, Colors.black);
+          setState(() {});
+        }
+      } catch (e) {
+        showSnackBAR(
+            "Falha ao registrar o produto.", context, Colors.red, Colors.white);
+      }
+    }
   }
 }

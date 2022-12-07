@@ -5,7 +5,6 @@ import 'package:makuna/components/input_form.dart';
 import 'package:makuna/daos/cliente_dao.dart';
 import 'package:makuna/models/cliente.dart';
 import 'package:makuna/utils/customStyles.dart';
-import 'package:makuna/utils/customWidgets.dart';
 
 import '../components/input_email_form.dart';
 
@@ -73,6 +72,7 @@ class _ClienteCadastroScreenState extends State<ClienteCadastroScreen> {
       label: "Nome do cliente",
       validationMsg: "Insira o nome do cliente",
       controller: _nomeController,
+      maxLength: 200,
     );
   }
 
@@ -84,6 +84,7 @@ class _ClienteCadastroScreenState extends State<ClienteCadastroScreen> {
       controller: _telefoneController,
       customMask: '(##) # ####-####',
       tipoImput: TextInputType.phone,
+      maxLength: 16,
     );
   }
 
@@ -93,6 +94,7 @@ class _ClienteCadastroScreenState extends State<ClienteCadastroScreen> {
       label: "Email do cliente",
       validationMsg: "Insira o email do cliente",
       controller: _emailController,
+      
     );
   }
 
@@ -135,7 +137,6 @@ class _ClienteCadastroScreenState extends State<ClienteCadastroScreen> {
         } else if (modoTela == "E") {
           showSnackBAR("Cliente atualizado com sucesso.", context,
               Colors.lightBlue, Colors.black);
-
           setState(() {});
         }
       } catch (e) {

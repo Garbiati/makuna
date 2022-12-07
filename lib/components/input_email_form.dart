@@ -24,6 +24,7 @@ class InputEmailForm extends StatelessWidget {
       controller: controller,
       validator: (input) => input!.isValidEmail() ? null : "Confira seu email",
       autovalidateMode: AutovalidateMode.onUserInteraction,
+      maxLength: 150,
     );
   }
 }

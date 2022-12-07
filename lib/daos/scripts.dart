@@ -5,6 +5,6 @@ CREATE TABLE Cliente(
   telefone CHAR(16) NOT NULL,
   email VARCHAR(150) NULL,
   urlAvatar VARCHAR(300) NOT NULL,
-  dataCadastro NOT NULL
+  dataCadastro VARCHAR(50) NOT NULL
   )
 ''';
