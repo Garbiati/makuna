@@ -4,6 +4,7 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:makuna/daos/produto_dao.dart';
 import 'package:makuna/models/produto.dart';
 import 'package:makuna/screens/produtoAdicionar.dart';
+import 'package:makuna/screens/produtoDetalhe.dart';
 import 'package:makuna/utils/customStyles.dart';
 import 'package:makuna/utils/customWidgets.dart';
 
@@ -69,6 +70,14 @@ class _ProdutoScreenState extends State<ProdutoScreen> {
           subtitle: Text(produto.valorVendaPrevisao.toString()),
           onLongPress: () {
             deleteProdutosById(produto.id!);
+          },
+          onTap: () {
+            Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) =>
+                            ProdutoDetalheScreen(produto: produto)))
+                .then((produto) => getAllProdutos());
           },
         ),
       ),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:makuna/models/cliente.dart';
 import 'package:makuna/screens/clienteAdicionar.dart';
+import 'package:makuna/screens/clienteDetalhe.dart';
 import 'package:makuna/utils/customStyles.dart';
 import 'package:makuna/utils/customWidgets.dart';
 import 'package:makuna/daos/cliente_dao.dart';
@@ -67,6 +68,14 @@ class _ClienteScreenState extends State<ClienteScreen> {
           subtitle: Text(cliente.telefone),
           onLongPress: () {
             deleteClienteById(cliente.id!);
+          },
+          onTap: () {
+            Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) =>
+                            ClienteDetalheScreen(cliente: cliente)))
+                .then((produto) => getAllClientes());
           },
         ),
       ),
