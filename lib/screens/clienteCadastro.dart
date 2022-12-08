@@ -5,6 +5,7 @@ import 'package:makuna/components/input_form.dart';
 import 'package:makuna/daos/cliente_dao.dart';
 import 'package:makuna/models/cliente.dart';
 import 'package:makuna/utils/customStyles.dart';
+import 'package:makuna/utils/util.dart';
 import '../components/input_email_form.dart';
 
 class ClienteCadastroScreen extends StatefulWidget {
@@ -28,7 +29,7 @@ class _ClienteCadastroScreenState extends State<ClienteCadastroScreen> {
 
   @override
   Widget build(BuildContext context) {
-    checkModoTela();
+    modoTela = validaModoTela(widget.cliente.id);
     configuraTitulo();
     preencherCampos();
 
@@ -97,10 +98,6 @@ class _ClienteCadastroScreenState extends State<ClienteCadastroScreen> {
   }
 
 //Telas e validações
-  void checkModoTela() {
-    widget.cliente.id! > 0 ? modoTela = "E" : modoTela = "N";
-  }
-  
   void configuraTitulo() {
     modoTela == "N"
         ? tituloTela = "Novo cadastro de cliente"

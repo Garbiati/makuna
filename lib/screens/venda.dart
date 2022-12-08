@@ -6,7 +6,6 @@ import 'package:makuna/models/cliente.dart';
 import 'package:makuna/models/produto.dart';
 import 'package:makuna/models/venda.dart';
 import 'package:makuna/screens/vendaCadastro.dart';
-import 'package:makuna/utils/customMethods.dart';
 import 'package:makuna/utils/customStyles.dart';
 import 'package:makuna/utils/customWidgets.dart';
 

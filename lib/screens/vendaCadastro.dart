@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:makuna/components/brasilFields.dart';
 import 'package:makuna/components/input_form.dart';
 import 'package:makuna/daos/cliente_dao.dart';
 import 'package:makuna/daos/produto_dao.dart';
@@ -7,6 +8,8 @@ import 'package:makuna/models/cliente.dart';
 import 'package:makuna/models/produto.dart';
 import 'package:makuna/models/venda.dart';
 import 'package:makuna/utils/customStyles.dart';
+import 'package:makuna/utils/extension.dart';
+import 'package:makuna/utils/util.dart';
 
 import 'package:snippet_coder_utils/FormHelper.dart';
 
@@ -65,7 +68,7 @@ class _VendaCadastroScreenState extends State<VendaCadastroScreen> {
 
   @override
   Widget build(BuildContext context) {
-    checkModoTela();
+    modoTela = validaModoTela(widget.venda.id);
     configuraTitulo();
     preencherCampos();
     return Scaffold(
@@ -88,27 +91,19 @@ class _VendaCadastroScreenState extends State<VendaCadastroScreen> {
                     children: [
                       fieldProduto(),
                       fieldCliente(),
-                      InputForm(
-                          hint: "Ex.: R\$ 15.000,00",
-                          label: "Valor real da venda",
-                          validationMsg: "Insira o valor da venda",
-                          controller: _valorVendaCompraController),
-                      InputForm(
-                          hint: "Ex.: Embrulhar para presente...",
-                          label: "Observação",
-                          validationMsg: "Insira uma observação",
-                          controller: _descricaoController),
-                      InputForm(
-                          hint: "Ex.: 01/01/2022",
-                          label: "Data da venda",
-                          validationMsg: "Insira a data da venda",
-                          controller: _dataVendaController),
+                      fieldValorVenda(),
+                      fieldObservacao(),
+                      fieldDataVenda(),
                     ]))));
   }
 
   Widget fieldProduto() {
     var produtosMap = produtos.map((e) {
-      return {"id": e.id, "nome": e.nome};
+      return {
+        "id": e.id,
+        "nome":
+            "${e.nome} (${e.valorVendaPrevisao.convertDoubleToRealCurrency()})"
+      };
     }).toList();
 
     return FormHelper.dropDownWidgetWithLabel(
@@ -185,11 +180,33 @@ class _VendaCadastroScreenState extends State<VendaCadastroScreen> {
         prefixIconPaddingRight: 0);
   }
 
-//Telas e validações
-  void checkModoTela() {
-    widget.venda.id! > 0 ? modoTela = "E" : modoTela = "N";
+  Widget fieldValorVenda() {
+    return InputRealForm(
+        hint: "Ex.: R\$ 15.000,00",
+        label: "Valor real da venda",
+        validationMsg: "Valor real da venda",
+        controller: _valorVendaCompraController);
   }
 
+  Widget fieldObservacao() {
+    return InputForm(
+      hint: "Ex.: Embrulhar para presente...",
+      label: "Observação",
+      validationMsg: "Insira uma observação",
+      controller: _descricaoController,
+      maxLength: 50,
+    );
+  }
+
+  Widget fieldDataVenda() {
+    return InputDataForm(
+        hint: "Ex.: 25/10/2022",
+        label: "Data de compra",
+        validationMsg: "Insira a data da venda",
+        controller: _dataVendaController);
+  }
+
+//Telas e validações
   void configuraTitulo() {
     modoTela == "N"
         ? tituloTela = "Realizar venda"
@@ -200,7 +217,8 @@ class _VendaCadastroScreenState extends State<VendaCadastroScreen> {
     if (modoTela == "E") {
       _descricaoController.text = widget.venda.descricao;
       _dataVendaController.text = widget.venda.dataVenda;
-      _valorVendaCompraController.text = widget.venda.valorVenda.toString();
+      _valorVendaCompraController.text =
+          widget.venda.valorVenda.convertDoubleToRealCurrency();
     }
   }
 

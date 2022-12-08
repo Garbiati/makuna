@@ -14,3 +14,9 @@ extension RealCurrency on String {
         (this).replaceAll('R\$', '').trim());
   }
 }
+
+extension RealCurrenCy on double {
+  String convertDoubleToRealCurrency() {
+    return UtilBrasilFields.obterReal((this));
+  }
+}

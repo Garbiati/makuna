@@ -1,12 +1,12 @@
 import 'package:brasil_fields/brasil_fields.dart';
 import 'package:flutter/material.dart';
-import 'package:makuna/components/SnackBAR.dart';
 import 'package:makuna/components/brasilFields.dart';
 import 'package:makuna/components/input_form.dart';
 import 'package:makuna/daos/produto_dao.dart';
 import 'package:makuna/models/produto.dart';
 import 'package:makuna/utils/customStyles.dart';
 import 'package:makuna/utils/extension.dart';
+import 'package:makuna/utils/util.dart';
 
 class ProdutoCadastroScreen extends StatefulWidget {
   const ProdutoCadastroScreen({super.key, required this.produto});
@@ -38,7 +38,7 @@ class _ProdutoCadastroScreenState extends State<ProdutoCadastroScreen> {
 
   @override
   Widget build(BuildContext context) {
-    checkModoTela();
+    modoTela = validaModoTela(widget.produto.id);
     configuraTitulo();
     preencherCampos();
 
@@ -95,10 +95,6 @@ class _ProdutoCadastroScreenState extends State<ProdutoCadastroScreen> {
   }
 
 //Telas e validações
-  void checkModoTela() {
-    widget.produto.id! > 0 ? modoTela = "E" : modoTela = "N";
-  }
-
   void configuraTitulo() {
     modoTela == "N"
         ? tituloTela = "Novo produto"
@@ -111,9 +107,9 @@ class _ProdutoCadastroScreenState extends State<ProdutoCadastroScreen> {
       _descricaoController.text = widget.produto.descricao;
       _dataCompraController.text = widget.produto.dataCompra;
       _valorCompraController.text =
-          UtilBrasilFields.obterReal(widget.produto.valorCompra);
+          widget.produto.valorCompra.convertDoubleToRealCurrency();
       _valorVendaPrevisaoController.text =
-          UtilBrasilFields.obterReal(widget.produto.valorVendaPrevisao);
+          widget.produto.valorVendaPrevisao.convertDoubleToRealCurrency();
     }
   }
 
@@ -131,16 +127,14 @@ class _ProdutoCadastroScreenState extends State<ProdutoCadastroScreen> {
                 .convertRealCurrencyToDouble(),
           );
           insertProduto(produto);
-          showSnackBAR("Produto registrado com sucesso.", context,
-              Colors.lightBlue, Colors.black);
+          exibirMensagemSucesso(context, "Produto registrado com sucesso.");
           Navigator.pop(context);
         } else {
-          showSnackBAR("Produto atualizado com sucesso.", context,
-              Colors.lightBlue, Colors.black);
+          exibirMensagemSucesso(context, "Produto atualizado com sucesso.");
           setState(() {});
         }
       } catch (e) {
-        showSnackBAR(e.toString(), context, Colors.red, Colors.white);
+        exibirMensagemFalha(context, e.toString());
       }
     }
   }
