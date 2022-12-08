@@ -1,14 +1,7 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
-import 'package:makuna/daos/cliente_dao.dart';
-import 'package:makuna/daos/produto_dao.dart';
 import 'package:makuna/daos/venda_dao.dart';
-import 'package:makuna/models/cliente.dart';
-import 'package:makuna/models/produto.dart';
 import 'package:makuna/models/venda.dart';
-import 'package:makuna/screens/vendaAdicionar.dart';
-import 'package:makuna/screens/vendaDetalhe.dart';
+import 'package:makuna/screens/vendaCadastro.dart';
 import 'package:makuna/utils/customStyles.dart';
 import 'package:makuna/utils/customWidgets.dart';
 
@@ -21,25 +14,11 @@ class VendaScreen extends StatefulWidget {
 
 class _VendaScreenState extends State<VendaScreen> {
   final title = const Text("Histórico de vendas");
-  final addRoute = const VendaAdicionarScreen();
-
   List<Venda> vendas = [];
 
   @override
   void initState() {
     super.initState();
-    getAllVendas();
-  }
-
-  getAllVendas() async {
-    List<Venda> result = await VendaDAO().readAll();
-    setState(() {
-      vendas = result;
-    });
-  }
-
-  deleteVendasById(int id) async {
-    await VendaDAO().deleteVenda(id);
     getAllVendas();
   }
 
@@ -49,8 +28,11 @@ class _VendaScreenState extends State<VendaScreen> {
       appBar: AppBar(title: title, actions: [
         IconButton(
             onPressed: () {
-              Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => addRoute))
+              Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) =>
+                              VendaCadastroScreen(venda: _criarNovaVenda())))
                   .then((venda) => getAllVendas());
             },
             icon: addIcon)
@@ -64,35 +46,22 @@ class _VendaScreenState extends State<VendaScreen> {
 
   Widget _buildItem(int index) {
     Venda venda = vendas[index];
-
     return Padding(
       padding: cardPadding,
       child: Container(
         decoration: cardBoxStyle(),
         child: ListTile(
-          leading: Text(venda.id.toString()),
+          leading: buildSvgIcon("images/icoVerificar.svg"),
           title: Text(venda.descricao),
           subtitle: Text(venda.dataVenda),
           onTap: () {
             Venda venda = vendas[index];
-            Produto produto;
-            Cliente cliente;
-
-            ProdutoDAO().getOneById(venda.produtoId).then((value) {
-              produto = value;
-
-              ClienteDAO().getOneById(venda.clienteId).then((value) {
-                cliente = value;
-
-                Navigator.push(
+            Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => VendaDetalheScreen(
-                            venda: venda,
-                            cliente: cliente,
-                            produto: produto))).then((venda) => getAllVendas());
-              });
-            });
+                        builder: (context) =>
+                            VendaCadastroScreen(venda: venda)))
+                .then((venda) => getAllVendas());
           },
           onLongPress: () {
             deleteVendasById(venda.id!);
@@ -100,5 +69,29 @@ class _VendaScreenState extends State<VendaScreen> {
         ),
       ),
     );
+  }
+
+  Venda _criarNovaVenda() {
+    return Venda(
+      id: 0,
+      clienteId: 0,
+      produtoId: 0,
+      descricao: "",
+      dataVenda: "",
+      valorVenda: 0,
+    );
+  }
+
+//Chamadas na DAO
+  getAllVendas() async {
+    List<Venda> result = await VendaDAO().readAll();
+    setState(() {
+      vendas = result;
+    });
+  }
+
+  deleteVendasById(int id) async {
+    await VendaDAO().deleteVenda(id);
+    getAllVendas();
   }
 }

@@ -1,3 +1,4 @@
+import 'package:brasil_fields/brasil_fields.dart';
 import 'package:flutter/material.dart';
 import 'package:makuna/daos/produto_dao.dart';
 import 'package:makuna/models/produto.dart';
@@ -64,9 +65,10 @@ class _ProdutoScreenState extends State<ProdutoScreen> {
       child: Container(
         decoration: cardBoxStyle(),
         child: ListTile(
-          leading: Text(produto.id.toString()),
+          leading: buildSvgIcon("images/icoProdutoDefault.svg"),
           title: Text(produto.nome),
-          subtitle: Text(produto.valorVendaPrevisao.toString()),
+          subtitle:
+              Text(UtilBrasilFields.obterReal(produto.valorVendaPrevisao)),
           onLongPress: () {
             deleteProdutosById(produto.id!);
           },

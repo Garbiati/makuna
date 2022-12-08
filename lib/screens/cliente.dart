@@ -16,21 +16,10 @@ class ClienteScreen extends StatefulWidget {
 class _ClienteScreenState extends State<ClienteScreen> {
   final title = const Text("Meus clientes");
   List<Cliente> clientes = [];
+
   @override
   void initState() {
     super.initState();
-    getAllClientes();
-  }
-
-  getAllClientes() async {
-    List<Cliente> result = await ClienteDAO().readAll();
-    setState(() {
-      clientes = result;
-    });
-  }
-
-  deleteClienteById(int id) async {
-    await ClienteDAO().deleteCliente(id);
     getAllClientes();
   }
 
@@ -56,6 +45,7 @@ class _ClienteScreenState extends State<ClienteScreen> {
     );
   }
 
+//Construção de tela
   Widget _buildItem(int index) {
     Cliente cliente = clientes[index];
     return Padding(
@@ -88,6 +78,19 @@ class _ClienteScreenState extends State<ClienteScreen> {
         ],
         name: cliente.nome.isEmpty ? "?" : cliente.nome,
       );
+
+//Chamadas DAO
+  getAllClientes() async {
+    List<Cliente> result = await ClienteDAO().readAll();
+    setState(() {
+      clientes = result;
+    });
+  }
+
+  deleteClienteById(int id) async {
+    await ClienteDAO().deleteCliente(id);
+    getAllClientes();
+  }
 
   Cliente _criarNovoCliente() {
     return Cliente(

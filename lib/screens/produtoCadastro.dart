@@ -6,8 +6,7 @@ import 'package:makuna/components/input_form.dart';
 import 'package:makuna/daos/produto_dao.dart';
 import 'package:makuna/models/produto.dart';
 import 'package:makuna/utils/customStyles.dart';
-import 'package:makuna/utils/customWidgets.dart';
-import 'package:intl/intl.dart';
+import 'package:makuna/utils/extension.dart';
 
 class ProdutoCadastroScreen extends StatefulWidget {
   const ProdutoCadastroScreen({super.key, required this.produto});
@@ -70,25 +69,27 @@ class _ProdutoCadastroScreenState extends State<ProdutoCadastroScreen> {
                       ),
                       InputForm(
                         hint: "Ex.: Pro Max preto 500 GB",
-                        label: "Descrição do produto",
-                        validationMsg: "Insira a descrição do produto",
+                        label: "Modelo ou descrição do produto",
+                        validationMsg:
+                            "Insira o modelo ou descrição do produto",
                         controller: _descricaoController,
                         maxLength: 50,
                       ),
                       InputDataForm(
                           hint: "Ex.: 25/10/2022",
-                          label: "Data do produto",
-                          validationMsg: "Insira a data da compra",
+                          label: "Data de compra",
+                          validationMsg:
+                              "Insira a data que o produto foi comprado",
                           controller: _dataCompraController),
                       InputRealForm(
-                          hint: "Digite o custo do produto",
+                          hint: "Ex.: 7.500,00",
                           label: "Custo do produto",
-                          validationMsg: "Insira o valor de custo",
+                          validationMsg: "Insira o valor de custo do produto",
                           controller: _valorCompraController),
                       InputRealForm(
-                          hint: "Digite o valor de venda",
-                          label: "valor previsto de venda",
-                          validationMsg: "Insira o valor que pretende vender",
+                          hint: "Ex.: 10.000,00",
+                          label: "valor de revenda",
+                          validationMsg: "Insira o valor que pretende revender",
                           controller: _valorVendaPrevisaoController),
                     ]))));
   }
@@ -109,9 +110,10 @@ class _ProdutoCadastroScreenState extends State<ProdutoCadastroScreen> {
       _nomeController.text = widget.produto.nome;
       _descricaoController.text = widget.produto.descricao;
       _dataCompraController.text = widget.produto.dataCompra;
-      _valorCompraController.text = widget.produto.valorCompra.toString();
+      _valorCompraController.text =
+          UtilBrasilFields.obterReal(widget.produto.valorCompra);
       _valorVendaPrevisaoController.text =
-          widget.produto.valorVendaPrevisao.toString();
+          UtilBrasilFields.obterReal(widget.produto.valorVendaPrevisao);
     }
   }
 
@@ -123,11 +125,10 @@ class _ProdutoCadastroScreenState extends State<ProdutoCadastroScreen> {
             nome: _nomeController.text,
             descricao: _descricaoController.text,
             dataCompra: _dataCompraController.text,
-            valorCompra: double.parse(UtilBrasilFields.removerSimboloMoeda(
-                _valorCompraController.text)),
-            valorVendaPrevisao: double.parse(
-                UtilBrasilFields.removerSimboloMoeda(
-                    _valorVendaPrevisaoController.text)),
+            valorCompra:
+                _valorCompraController.text.convertRealCurrencyToDouble(),
+            valorVendaPrevisao: _valorVendaPrevisaoController.text
+                .convertRealCurrencyToDouble(),
           );
           insertProduto(produto);
           showSnackBAR("Produto registrado com sucesso.", context,
@@ -139,8 +140,7 @@ class _ProdutoCadastroScreenState extends State<ProdutoCadastroScreen> {
           setState(() {});
         }
       } catch (e) {
-        showSnackBAR(
-            "Falha ao registrar o produto.", context, Colors.red, Colors.white);
+        showSnackBAR(e.toString(), context, Colors.red, Colors.white);
       }
     }
   }

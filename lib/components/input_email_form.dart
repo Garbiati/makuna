@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-
 import 'package:makuna/utils/extension.dart';
-
 class InputEmailForm extends StatelessWidget {
   const InputEmailForm({
     super.key,

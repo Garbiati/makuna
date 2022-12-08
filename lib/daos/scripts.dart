@@ -9,12 +9,11 @@ CREATE TABLE Cliente(
   )
 ''';
 
-const createTableProduto = '''
-"CREATE TABLE Produto(
-  id INTEGER NOT NULL PRIMARY KEY,
-  nome VARCHAR(50) NOT NULL, 
-  descricao VARCHAR(50),
-  dataCompra VARCHAR(50),
-  valorCompra DOUBLE NOT NULL,
-  valorVendaPrevisao DOUBLE NOT NULL)"
-''';
+const createTableProduto =
+    ''' CREATE TABLE Produto(id INTEGER NOT NULL PRIMARY KEY,
+    nome VARCHAR(50) NOT NULL,
+    descricao VARCHAR(50) NULL,
+    dataCompra VARCHAR(50) NULL,
+    valorCompra DOUBLE NOT NULL,
+    valorVendaPrevisao DOUBLE NOT NULL);     
+     ''';

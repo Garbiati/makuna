@@ -34,6 +34,8 @@ flutter:
   - images/MenuCliente.svg
   - images/MenuProduto.svg
   - images/MenuVenda.svg
+  - images/icoProdutoDefault.svg
+  - images/icoVerificar.svg
   - images/007-list.svg
   - images/003-clipboard.svg
   - images/006-cart.svg

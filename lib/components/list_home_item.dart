@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import '../utils/customWidgets.dart';
-
 class ListHomeItem extends StatelessWidget {
   const ListHomeItem(
       {super.key,
