@@ -116,29 +116,31 @@ class _ClienteCadastroScreenState extends State<ClienteCadastroScreen> {
   void salvarFormulario() {
     if (_formKey.currentState!.validate()) {
       try {
+        Cliente cliente = Cliente(
+            nome: _nomeController.text,
+            telefone: _telefoneController.text,
+            email: _emailController.text,
+            urlAvatar: "",
+            dataCadastro: DateTime.now().toString());
+
         if (modoTela == "N") {
-          Cliente cliente = Cliente(
-              nome: _nomeController.text,
-              telefone: _telefoneController.text,
-              email: _emailController.text,
-              urlAvatar: "",
-              dataCadastro: DateTime.now().toString());
-
           insertCliente(cliente);
-
-          showSnackBAR("Cliente cadastrado com sucesso.", context,
-              Colors.lightBlue, Colors.black);
-          Navigator.pop(context);
+          exibirMensagemSucesso(context, "Cliente cadastrado com sucesso.");
         } else if (modoTela == "E") {
-          showSnackBAR("Cliente atualizado com sucesso.", context,
-              Colors.lightBlue, Colors.black);
-          setState(() {});
+          cliente.id = widget.cliente.id;
+          updateCliente(cliente);
+          exibirMensagemSucesso(context, "Cliente atualizado com sucesso.");
         }
+        Navigator.pop(context);
       } catch (e) {
-        showSnackBAR(
-            "Erro ao salvar as informações", context, Colors.red, Colors.white);
+        exibirMensagemFalha(context, "Erro ao salvar as informações");
       }
     }
+  }
+
+  updateCliente(Cliente cliente) async {
+    await ClienteDAO().updateCliente(cliente);
+    setState(() {});
   }
 
   insertCliente(Cliente cliente) async {

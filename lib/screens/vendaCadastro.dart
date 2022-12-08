@@ -25,7 +25,7 @@ class VendaCadastroScreen extends StatefulWidget {
 class _VendaCadastroScreenState extends State<VendaCadastroScreen> {
   final _formKey = GlobalKey<FormState>();
   final _valorVendaCompraController = TextEditingController();
-  final _descricaoController = TextEditingController();
+  final _detailController = TextEditingController();
   final _dataVendaController = TextEditingController();
 
   int produtoIdSelecionado = 0;
@@ -39,27 +39,6 @@ class _VendaCadastroScreenState extends State<VendaCadastroScreen> {
     getAllProdutos();
     getAllClientes();
     super.initState();
-  }
-
-  getAllProdutos() async {
-    List<Produto> result = await ProdutoDAO().readAll();
-    setState(() {
-      produtos = result;
-    });
-  }
-
-  getAllClientes() async {
-    List<Cliente> result = await ClienteDAO().readAll();
-    setState(() {
-      clientes = result;
-    });
-  }
-
-  insertVenda(Venda venda) async {
-    int id = await VendaDAO().insertVenda(venda);
-    setState(() {
-      venda.id = id;
-    });
   }
 
 // N= Novo E = Editando
@@ -110,7 +89,7 @@ class _VendaCadastroScreenState extends State<VendaCadastroScreen> {
       context,
       "Produto",
       "[Lista de Produtos]",
-      "",
+      widget.venda.produtoId > 0 ? widget.venda.produtoId : "",
       produtosMap,
       (onChangedVal) {
         produtoIdSelecionado = int.parse(onChangedVal);
@@ -148,9 +127,13 @@ class _VendaCadastroScreenState extends State<VendaCadastroScreen> {
     var clientesMap = clientes.map((e) {
       return {"id": e.id, "nome": e.nome};
     }).toList();
+
     return FormHelper.dropDownWidgetWithLabel(
-        context, "Cliente", "[Lista de Clientes]", "", clientesMap,
-        (onChangedVal) {
+        context,
+        "Cliente",
+        "[Lista de Clientes]",
+        widget.venda.clienteId > 0 ? widget.venda.clienteId : "",
+        clientesMap, (onChangedVal) {
       clienteIdSelecionado = int.parse(onChangedVal);
     }, (onValidateVal) {
       if (onValidateVal == null) {
@@ -193,7 +176,7 @@ class _VendaCadastroScreenState extends State<VendaCadastroScreen> {
       hint: "Ex.: Embrulhar para presente...",
       label: "Observação",
       validationMsg: "Insira uma observação",
-      controller: _descricaoController,
+      controller: _detailController,
       maxLength: 50,
     );
   }
@@ -215,7 +198,7 @@ class _VendaCadastroScreenState extends State<VendaCadastroScreen> {
 
   void preencherCampos() {
     if (modoTela == "E") {
-      _descricaoController.text = widget.venda.descricao;
+      _detailController.text = widget.venda.detail;
       _dataVendaController.text = widget.venda.dataVenda;
       _valorVendaCompraController.text =
           widget.venda.valorVenda.convertDoubleToRealCurrency();
@@ -225,15 +208,55 @@ class _VendaCadastroScreenState extends State<VendaCadastroScreen> {
 //Persistencias
   void salvarFormulario() {
     if (_formKey.currentState!.validate()) {
-      Venda venda = Venda(
-        produtoId: produtoIdSelecionado,
-        clienteId: clienteIdSelecionado,
-        valorVenda: double.parse(_valorVendaCompraController.text),
-        descricao: _descricaoController.text,
-        dataVenda: _dataVendaController.text,
-      );
-      insertVenda(venda);
-      Navigator.pop(context);
+      try {
+        Venda venda = Venda(
+          produtoId: produtoIdSelecionado,
+          clienteId: clienteIdSelecionado,
+          valorVenda:
+              _valorVendaCompraController.text.convertRealCurrencyToDouble(),
+          detail: _detailController.text,
+          dataVenda: _dataVendaController.text,
+        );
+
+        if (modoTela == "N") {
+          insertVenda(venda);
+          exibirMensagemSucesso(context, "Venda realizada com sucesso.");
+        } else {
+          venda.id = widget.venda.id;
+          updateVenda(venda);
+
+          exibirMensagemSucesso(context, "Venda atualizada com sucesso.");
+        }
+        Navigator.pop(context);
+      } catch (e) {
+        exibirMensagemFalha(context, "Falha ao salvar as informações");
+      }
     }
+  }
+
+  getAllProdutos() async {
+    List<Produto> result = await ProdutoDAO().readAll();
+    setState(() {
+      produtos = result;
+    });
+  }
+
+  getAllClientes() async {
+    List<Cliente> result = await ClienteDAO().readAll();
+    setState(() {
+      clientes = result;
+    });
+  }
+
+  insertVenda(Venda venda) async {
+    int id = await VendaDAO().insertVenda(venda);
+    setState(() {
+      venda.id = id;
+    });
+  }
+
+  updateVenda(Venda venda) async {
+    await VendaDAO().updateVenda(venda);
+    setState(() {});
   }
 }

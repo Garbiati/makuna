@@ -1,3 +1,4 @@
+import 'package:makuna/daos/scripts.dart';
 import 'package:makuna/models/venda.dart';
 import 'package:path/path.dart' show join;
 import 'package:sqflite/sqflite.dart';
@@ -7,8 +8,7 @@ class VendaDAO {
     Database db =
         await openDatabase(join(await getDatabasesPath(), 'venda_database.db'),
             onCreate: ((db, version) {
-      return db.execute(
-          "CREATE TABLE Venda(id INTEGER PRIMARY KEY, clienteId INT, produtoId INT, valorVenda DOUBLE, descricao TEXT, dataVenda TEXT)");
+      return db.execute(createTableVenda);
     }), version: 1);
     return db;
   }
@@ -23,7 +23,7 @@ class VendaDAO {
         clienteId: maps[index]['clienteId'],
         produtoId: maps[index]['produtoId'],
         valorVenda: maps[index]['valorVenda'],
-        descricao: maps[index]['descricao'],
+        detail: maps[index]['detail'],
         dataVenda: maps[index]['dataVenda'],
       );
     });
@@ -35,6 +35,14 @@ class VendaDAO {
     final db = await getDatabase();
     return db.insert("Venda", produto.toMap(),
         conflictAlgorithm: ConflictAlgorithm.replace);
+  }
+
+  Future<int> updateVenda(Venda produto) async {
+    final db = await getDatabase();
+    return db.update("Venda", produto.toMap(),
+        conflictAlgorithm: ConflictAlgorithm.replace,
+        where: ' id = ? ',
+        whereArgs: [produto.id]);
   }
 
   Future deleteVenda(int id) async {

@@ -56,6 +56,17 @@ class ProdutoDAO {
         conflictAlgorithm: ConflictAlgorithm.replace);
   }
 
+  Future<int> updateProduto(Produto produto) async {
+    final db = await getDatabase();
+    return db.update(
+      "Produto",
+      produto.toMap(),
+      conflictAlgorithm: ConflictAlgorithm.replace,
+      where: ' id = ? ',
+      whereArgs: [produto.id],
+    );
+  }
+
   Future deleteProduto(int id) async {
     final db = await getDatabase();
     return db.delete("Produto", where: ' id = ? ', whereArgs: [id]);

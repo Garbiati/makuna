@@ -54,11 +54,11 @@ class _VendaScreenState extends State<VendaScreen> {
 
   Widget _buildItem(int index) {
     Venda venda = vendas[index];
+    String nomeCliente = venda.clienteId.toString();
+    String nomeProduto = venda.produtoId.toString();
 
-    String nomeCliente =
-        clientes.where((c) => c.id == venda.clienteId).first.nome;
-    String nomeProduto =
-        produtos.where((p) => p.id == venda.produtoId).first.nome;
+    // nomeCliente = clientes.where((c) => c.id == venda.clienteId).first.nome;
+    // nomeProduto = produtos.where((p) => p.id == venda.produtoId).first.nome;
 
     return Padding(
       padding: cardPadding,
@@ -90,7 +90,7 @@ class _VendaScreenState extends State<VendaScreen> {
       id: 0,
       clienteId: 0,
       produtoId: 0,
-      descricao: "",
+      detail: "",
       dataVenda: "",
       valorVenda: 0,
     );

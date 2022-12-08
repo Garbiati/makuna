@@ -10,12 +10,14 @@ class InputDataForm extends StatelessWidget {
     required this.label,
     required this.validationMsg,
     required this.controller,
+    this.enabled,
   });
 
   final String hint;
   final String label;
   final String validationMsg;
   final TextEditingController controller;
+  final bool? enabled;
 
   @override
   Widget build(BuildContext context) {
@@ -29,6 +31,7 @@ class InputDataForm extends StatelessWidget {
         decoration: InputDecoration(hintText: hint, labelText: label),
         controller: controller,
         autovalidateMode: AutovalidateMode.onUserInteraction,
+        enabled: enabled,
         validator: ((value) {
           if (value == null || value.isEmpty) {
             return validationMsg;
@@ -51,12 +54,14 @@ class InputRealForm extends StatelessWidget {
     required this.label,
     required this.validationMsg,
     required this.controller,
+    this.enabled,
   });
 
   final String hint;
   final String label;
   final String validationMsg;
   final TextEditingController controller;
+  final bool? enabled;
 
   @override
   Widget build(BuildContext context) {
@@ -70,6 +75,7 @@ class InputRealForm extends StatelessWidget {
         decoration: InputDecoration(hintText: hint, labelText: label),
         controller: controller,
         autovalidateMode: AutovalidateMode.onUserInteraction,
+        enabled: enabled,
         validator: ((value) {
           if (value == null || value.isEmpty) {
             return validationMsg;

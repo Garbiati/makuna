@@ -56,6 +56,12 @@ class ClienteDAO {
         conflictAlgorithm: ConflictAlgorithm.replace);
   }
 
+  Future<int> updateCliente(Cliente cliente) async {
+    final db = await getDatabase();
+    return db.update("Cliente", cliente.toMap(),
+        where: ' id = ? ', whereArgs: [cliente.id]);
+  }
+
   Future deleteCliente(int id) async {
     final db = await getDatabase();
     return db.delete("Cliente", where: ' id = ? ', whereArgs: [id]);

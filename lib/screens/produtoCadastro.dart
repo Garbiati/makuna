@@ -1,4 +1,3 @@
-import 'package:brasil_fields/brasil_fields.dart';
 import 'package:flutter/material.dart';
 import 'package:makuna/components/brasilFields.dart';
 import 'package:makuna/components/input_form.dart';
@@ -24,13 +23,6 @@ class _ProdutoCadastroScreenState extends State<ProdutoCadastroScreen> {
   final _dataCompraController = TextEditingController();
   final _valorCompraController = TextEditingController();
   final _valorVendaPrevisaoController = TextEditingController();
-
-  insertProduto(Produto produto) async {
-    int id = await ProdutoDAO().insertProduto(produto);
-    setState(() {
-      produto.id = id;
-    });
-  }
 
   // N= Novo E = Editando
   String modoTela = '';
@@ -88,7 +80,7 @@ class _ProdutoCadastroScreenState extends State<ProdutoCadastroScreen> {
                           controller: _valorCompraController),
                       InputRealForm(
                           hint: "Ex.: 10.000,00",
-                          label: "valor de revenda",
+                          label: "Valor de revenda",
                           validationMsg: "Insira o valor que pretende revender",
                           controller: _valorVendaPrevisaoController),
                     ]))));
@@ -116,26 +108,40 @@ class _ProdutoCadastroScreenState extends State<ProdutoCadastroScreen> {
   void salvarFormulario() {
     if (_formKey.currentState!.validate()) {
       try {
+        Produto produto = Produto(
+          nome: _nomeController.text,
+          descricao: _descricaoController.text,
+          dataCompra: _dataCompraController.text,
+          valorCompra:
+              _valorCompraController.text.convertRealCurrencyToDouble(),
+          valorVendaPrevisao:
+              _valorVendaPrevisaoController.text.convertRealCurrencyToDouble(),
+        );
+
         if (modoTela == "N") {
-          Produto produto = Produto(
-            nome: _nomeController.text,
-            descricao: _descricaoController.text,
-            dataCompra: _dataCompraController.text,
-            valorCompra:
-                _valorCompraController.text.convertRealCurrencyToDouble(),
-            valorVendaPrevisao: _valorVendaPrevisaoController.text
-                .convertRealCurrencyToDouble(),
-          );
           insertProduto(produto);
           exibirMensagemSucesso(context, "Produto registrado com sucesso.");
-          Navigator.pop(context);
         } else {
           exibirMensagemSucesso(context, "Produto atualizado com sucesso.");
-          setState(() {});
+          produto.id = widget.produto.id;
+          updateProduto(produto);
         }
+        Navigator.pop(context);
       } catch (e) {
         exibirMensagemFalha(context, e.toString());
       }
     }
+  }
+
+  insertProduto(Produto produto) async {
+    int id = await ProdutoDAO().insertProduto(produto);
+    setState(() {
+      produto.id = id;
+    });
+  }
+
+  updateProduto(Produto produto) async {
+    await ProdutoDAO().updateProduto(produto);
+    setState(() {});
   }
 }
