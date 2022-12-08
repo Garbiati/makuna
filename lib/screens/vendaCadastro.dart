@@ -210,8 +210,12 @@ class _VendaCadastroScreenState extends State<VendaCadastroScreen> {
     if (_formKey.currentState!.validate()) {
       try {
         Venda venda = Venda(
-          produtoId: produtoIdSelecionado,
-          clienteId: clienteIdSelecionado,
+          produtoId: produtoIdSelecionado > 0
+              ? produtoIdSelecionado
+              : widget.venda.produtoId,
+          clienteId: clienteIdSelecionado > 0
+              ? clienteIdSelecionado
+              : widget.venda.clienteId,
           valorVenda:
               _valorVendaCompraController.text.convertRealCurrencyToDouble(),
           detail: _detailController.text,
