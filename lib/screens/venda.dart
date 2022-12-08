@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:makuna/daos/cliente_dao.dart';
+import 'package:makuna/daos/produto_dao.dart';
 import 'package:makuna/daos/venda_dao.dart';
+import 'package:makuna/models/cliente.dart';
+import 'package:makuna/models/produto.dart';
 import 'package:makuna/models/venda.dart';
 import 'package:makuna/screens/vendaCadastro.dart';
+import 'package:makuna/utils/customMethods.dart';
 import 'package:makuna/utils/customStyles.dart';
 import 'package:makuna/utils/customWidgets.dart';
 
@@ -15,11 +20,15 @@ class VendaScreen extends StatefulWidget {
 class _VendaScreenState extends State<VendaScreen> {
   final title = const Text("Histórico de vendas");
   List<Venda> vendas = [];
+  List<Produto> produtos = [];
+  List<Cliente> clientes = [];
 
   @override
   void initState() {
     super.initState();
     getAllVendas();
+    getAllProdutos();
+    getAllClientes();
   }
 
   @override
@@ -46,14 +55,20 @@ class _VendaScreenState extends State<VendaScreen> {
 
   Widget _buildItem(int index) {
     Venda venda = vendas[index];
+
+    String nomeCliente =
+        clientes.where((c) => c.id == venda.clienteId).first.nome;
+    String nomeProduto =
+        produtos.where((p) => p.id == venda.produtoId).first.nome;
+
     return Padding(
       padding: cardPadding,
       child: Container(
         decoration: cardBoxStyle(),
         child: ListTile(
           leading: buildSvgIcon("images/icoVerificar.svg"),
-          title: Text(venda.descricao),
-          subtitle: Text(venda.dataVenda),
+          title: Text(nomeProduto),
+          subtitle: Text(nomeCliente),
           onTap: () {
             Venda venda = vendas[index];
             Navigator.push(
@@ -87,6 +102,20 @@ class _VendaScreenState extends State<VendaScreen> {
     List<Venda> result = await VendaDAO().readAll();
     setState(() {
       vendas = result;
+    });
+  }
+
+  getAllProdutos() async {
+    List<Produto> result = await ProdutoDAO().readAll();
+    setState(() {
+      produtos = result;
+    });
+  }
+
+  getAllClientes() async {
+    List<Cliente> result = await ClienteDAO().readAll();
+    setState(() {
+      clientes = result;
     });
   }
 
