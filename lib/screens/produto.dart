@@ -1,5 +1,6 @@
 import 'package:brasil_fields/brasil_fields.dart';
 import 'package:flutter/material.dart';
+import 'package:makuna/components/bottomNavigatorBar.dart';
 import 'package:makuna/daos/produto_dao.dart';
 import 'package:makuna/models/produto.dart';
 import 'package:makuna/screens/produtoCadastro.dart';
@@ -55,7 +56,7 @@ class _ProdutoScreenState extends State<ProdutoScreen> {
           itemBuilder: (context, index) => _buildItem(index),
           separatorBuilder: (context, index) => divisorList(),
           itemCount: produtos.length),
-    );
+    bottomNavigationBar: const BottomNavigatorBarWidget());
   }
 
   Widget _buildItem(int index) {

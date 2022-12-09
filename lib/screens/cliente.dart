@@ -1,5 +1,6 @@
 import 'package:avatars/avatars.dart';
 import 'package:flutter/material.dart';
+import 'package:makuna/components/bottomNavigatorBar.dart';
 import 'package:makuna/models/cliente.dart';
 import 'package:makuna/screens/clienteCadastro.dart';
 import 'package:makuna/utils/customStyles.dart';
@@ -26,23 +27,23 @@ class _ClienteScreenState extends State<ClienteScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: title, actions: [
-        IconButton(
-            onPressed: () {
-              Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => ClienteCadastroScreen(
-                              cliente: _criarNovoCliente())))
-                  .then((produto) => getAllClientes());
-            },
-            icon: addIcon)
-      ]),
-      body: ListView.separated(
-          itemBuilder: (context, index) => _buildItem(index),
-          separatorBuilder: (context, index) => divisorList(),
-          itemCount: clientes.length),
-    );
+        appBar: AppBar(title: title, actions: [
+          IconButton(
+              onPressed: () {
+                Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => ClienteCadastroScreen(
+                                cliente: _criarNovoCliente())))
+                    .then((produto) => getAllClientes());
+              },
+              icon: addIcon)
+        ]),
+        body: ListView.separated(
+            itemBuilder: (context, index) => _buildItem(index),
+            separatorBuilder: (context, index) => divisorList(),
+            itemCount: clientes.length),
+        bottomNavigationBar: const BottomNavigatorBarWidget());
   }
 
 //Construção de tela

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:makuna/components/bottomNavigatorBar.dart';
 import 'package:makuna/daos/cliente_dao.dart';
 import 'package:makuna/daos/produto_dao.dart';
 import 'package:makuna/daos/venda_dao.dart';
@@ -33,23 +34,23 @@ class _VendaScreenState extends State<VendaScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: title, actions: [
-        IconButton(
-            onPressed: () {
-              Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) =>
-                              VendaCadastroScreen(venda: _criarNovaVenda())))
-                  .then((venda) => getAllVendas());
-            },
-            icon: addIcon)
-      ]),
-      body: ListView.separated(
-          itemBuilder: (context, index) => _buildItem(index),
-          separatorBuilder: (context, index) => divisorList(),
-          itemCount: vendas.length),
-    );
+        appBar: AppBar(title: title, actions: [
+          IconButton(
+              onPressed: () {
+                Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) =>
+                                VendaCadastroScreen(venda: _criarNovaVenda())))
+                    .then((venda) => getAllVendas());
+              },
+              icon: addIcon)
+        ]),
+        body: ListView.separated(
+            itemBuilder: (context, index) => _buildItem(index),
+            separatorBuilder: (context, index) => divisorList(),
+            itemCount: vendas.length),
+        bottomNavigationBar: const BottomNavigatorBarWidget());
   }
 
   Widget _buildItem(int index) {
