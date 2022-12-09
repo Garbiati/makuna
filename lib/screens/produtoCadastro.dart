@@ -5,6 +5,7 @@ import 'package:makuna/daos/produto_dao.dart';
 import 'package:makuna/models/produto.dart';
 import 'package:makuna/utils/customStyles.dart';
 import 'package:makuna/utils/extension.dart';
+import 'package:makuna/utils/usuarioHelper.dart';
 import 'package:makuna/utils/util.dart';
 
 class ProdutoCadastroScreen extends StatefulWidget {
@@ -109,14 +110,17 @@ class _ProdutoCadastroScreenState extends State<ProdutoCadastroScreen> {
     if (_formKey.currentState!.validate()) {
       try {
         Produto produto = Produto(
-          nome: _nomeController.text,
-          descricao: _descricaoController.text,
-          dataCompra: _dataCompraController.text,
-          valorCompra:
-              _valorCompraController.text.convertRealCurrencyToDouble(),
-          valorVendaPrevisao:
-              _valorVendaPrevisaoController.text.convertRealCurrencyToDouble(),
-        );
+            usuarioId: usuarioId,
+            nome: _nomeController.text,
+            codigoProduto: "",
+            descricao: _descricaoController.text,
+            valorCompra:
+                _valorCompraController.text.convertRealCurrencyToDouble(),
+            valorVendaPrevisao: _valorVendaPrevisaoController.text
+                .convertRealCurrencyToDouble(),
+            quantidade: 0,
+            dataCompra: _dataCompraController.text,
+            ativo: 1);
 
         if (modoTela == "N") {
           insertProduto(produto);

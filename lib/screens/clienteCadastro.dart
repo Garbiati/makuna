@@ -5,6 +5,7 @@ import 'package:makuna/components/input_form.dart';
 import 'package:makuna/daos/cliente_dao.dart';
 import 'package:makuna/models/cliente.dart';
 import 'package:makuna/utils/customStyles.dart';
+import 'package:makuna/utils/usuarioHelper.dart';
 import 'package:makuna/utils/util.dart';
 import '../components/input_email_form.dart';
 
@@ -108,7 +109,7 @@ class _ClienteCadastroScreenState extends State<ClienteCadastroScreen> {
     if (modoTela == "E") {
       _nomeController.text = widget.cliente.nome;
       _telefoneController.text = widget.cliente.telefone;
-      _emailController.text = widget.cliente.email!;
+      _emailController.text = widget.cliente.email;
     }
   }
 
@@ -117,11 +118,13 @@ class _ClienteCadastroScreenState extends State<ClienteCadastroScreen> {
     if (_formKey.currentState!.validate()) {
       try {
         Cliente cliente = Cliente(
+            usuarioId: usuarioId,
             nome: _nomeController.text,
             telefone: _telefoneController.text,
             email: _emailController.text,
             urlAvatar: "",
-            dataCadastro: DateTime.now().toString());
+            dataCadastro: DateTime.now().toString(),
+            ativo: 1);
 
         if (modoTela == "N") {
           insertCliente(cliente);

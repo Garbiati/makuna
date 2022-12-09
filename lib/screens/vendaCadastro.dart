@@ -3,12 +3,15 @@ import 'package:makuna/components/brasilFields.dart';
 import 'package:makuna/components/input_form.dart';
 import 'package:makuna/daos/cliente_dao.dart';
 import 'package:makuna/daos/produto_dao.dart';
+import 'package:makuna/daos/vendaProduto_dao.dart';
 import 'package:makuna/daos/venda_dao.dart';
 import 'package:makuna/models/cliente.dart';
 import 'package:makuna/models/produto.dart';
 import 'package:makuna/models/venda.dart';
+import 'package:makuna/models/vendaProduto.dart';
 import 'package:makuna/utils/customStyles.dart';
 import 'package:makuna/utils/extension.dart';
+import 'package:makuna/utils/usuarioHelper.dart';
 import 'package:makuna/utils/util.dart';
 
 import 'package:snippet_coder_utils/FormHelper.dart';
@@ -33,6 +36,7 @@ class _VendaCadastroScreenState extends State<VendaCadastroScreen> {
 
   List<Produto> produtos = [];
   List<Cliente> clientes = [];
+  List<VendaProduto> vendaProdutos = [];
 
   @override
   void initState() {
@@ -89,7 +93,7 @@ class _VendaCadastroScreenState extends State<VendaCadastroScreen> {
       context,
       "Produto",
       "[Lista de Produtos]",
-      widget.venda.produtoId > 0 ? widget.venda.produtoId : "",
+      vendaProdutos.first.produtoId > 0 ? vendaProdutos.first.produtoId : "",
       produtosMap,
       (onChangedVal) {
         produtoIdSelecionado = int.parse(onChangedVal);
@@ -201,7 +205,7 @@ class _VendaCadastroScreenState extends State<VendaCadastroScreen> {
       _detailController.text = widget.venda.detail;
       _dataVendaController.text = widget.venda.dataVenda;
       _valorVendaCompraController.text =
-          widget.venda.valorVenda.convertDoubleToRealCurrency();
+          widget.venda.valorTotalVenda.convertDoubleToRealCurrency();
     }
   }
 
@@ -210,20 +214,29 @@ class _VendaCadastroScreenState extends State<VendaCadastroScreen> {
     if (_formKey.currentState!.validate()) {
       try {
         Venda venda = Venda(
-          produtoId: produtoIdSelecionado > 0
-              ? produtoIdSelecionado
-              : widget.venda.produtoId,
-          clienteId: clienteIdSelecionado > 0
-              ? clienteIdSelecionado
-              : widget.venda.clienteId,
-          valorVenda:
-              _valorVendaCompraController.text.convertRealCurrencyToDouble(),
-          detail: _detailController.text,
-          dataVenda: _dataVendaController.text,
-        );
+            usuarioId: usuarioId,
+            order: "O00001",
+            clienteId: clienteIdSelecionado > 0
+                ? clienteIdSelecionado
+                : widget.venda.clienteId,
+            valorTotalVenda:
+                _valorVendaCompraController.text.convertRealCurrencyToDouble(),
+            detail: _detailController.text,
+            dataVenda: _dataVendaController.text,
+            ativo: 1);
+
+        VendaProduto vendaProduto = VendaProduto(
+            usuarioId: usuarioId,
+            vendaId: widget.venda.id!,
+            produtoId: produtoIdSelecionado,
+            quantidade: 1);
 
         if (modoTela == "N") {
           insertVenda(venda);
+
+          vendaProduto.vendaId = venda.id!;
+          insertVendaProduto(vendaProduto);
+
           exibirMensagemSucesso(context, "Venda realizada com sucesso.");
         } else {
           venda.id = widget.venda.id;
@@ -252,6 +265,13 @@ class _VendaCadastroScreenState extends State<VendaCadastroScreen> {
     });
   }
 
+  getVendaProduto(int vendaId) async {
+    List<VendaProduto> result = await VendaProdutoDAO().readByVendaId(vendaId);
+    setState(() {
+      vendaProdutos = result;
+    });
+  }
+
   insertVenda(Venda venda) async {
     int id = await VendaDAO().insertVenda(venda);
     setState(() {
@@ -259,8 +279,20 @@ class _VendaCadastroScreenState extends State<VendaCadastroScreen> {
     });
   }
 
+  insertVendaProduto(VendaProduto vendaProduto) async {
+    int id = await VendaProdutoDAO().insertVendaProduto(vendaProduto);
+    setState(() {
+      vendaProduto.id = id;
+    });
+  }
+
   updateVenda(Venda venda) async {
     await VendaDAO().updateVenda(venda);
+    setState(() {});
+  }
+
+  updateVendaProduto(VendaProduto vendaProduto) async {
+    await VendaProdutoDAO().updateVendaProduto(vendaProduto);
     setState(() {});
   }
 }

@@ -75,7 +75,7 @@ class _ClienteScreenState extends State<ClienteScreen> {
 
   Widget fieldAvatar(Cliente cliente) => Avatar(
         sources: [
-          GravatarSource(cliente.email!, 300),
+          GravatarSource(cliente.email, 300),
         ],
         name: cliente.nome.isEmpty ? "?" : cliente.nome,
       );
@@ -96,10 +96,12 @@ class _ClienteScreenState extends State<ClienteScreen> {
   Cliente _criarNovoCliente() {
     return Cliente(
         id: 0,
+        usuarioId: 0,
         nome: "",
         telefone: "",
         email: "",
         urlAvatar: "",
-        dataCadastro: "");
+        dataCadastro: "",
+        ativo: 1);
   }
 }

@@ -9,6 +9,7 @@ import 'package:makuna/models/venda.dart';
 import 'package:makuna/screens/vendaCadastro.dart';
 import 'package:makuna/utils/customStyles.dart';
 import 'package:makuna/utils/customWidgets.dart';
+import 'package:makuna/utils/usuarioHelper.dart';
 
 class VendaScreen extends StatefulWidget {
   const VendaScreen({super.key});
@@ -57,8 +58,7 @@ class _VendaScreenState extends State<VendaScreen> {
     Venda venda = vendas[index];
     String nomeCliente =
         clientes.where((c) => c.id == venda.clienteId).first.nome;
-    String nomeProduto =
-        produtos.where((p) => p.id == venda.produtoId).first.nome;
+    String nomeProduto = venda.order;
 
     return Padding(
       padding: cardPadding,
@@ -87,13 +87,14 @@ class _VendaScreenState extends State<VendaScreen> {
 
   Venda _criarNovaVenda() {
     return Venda(
-      id: 0,
-      clienteId: 0,
-      produtoId: 0,
-      detail: "",
-      dataVenda: "",
-      valorVenda: 0,
-    );
+        id: 0,
+        usuarioId: usuarioId,
+        order: "",
+        clienteId: 0,
+        detail: "",
+        dataVenda: "",
+        valorTotalVenda: 0,
+        ativo: 1);
   }
 
 //Chamadas na DAO

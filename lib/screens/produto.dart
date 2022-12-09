@@ -40,23 +40,23 @@ class _ProdutoScreenState extends State<ProdutoScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: title, actions: [
-        IconButton(
-            onPressed: () {
-              Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => ProdutoCadastroScreen(
-                              produto: _criarNovoProduto())))
-                  .then((produto) => getAllProdutos());
-            },
-            icon: addIcon)
-      ]),
-      body: ListView.separated(
-          itemBuilder: (context, index) => _buildItem(index),
-          separatorBuilder: (context, index) => divisorList(),
-          itemCount: produtos.length),
-    bottomNavigationBar: const BottomNavigatorBarWidget());
+        appBar: AppBar(title: title, actions: [
+          IconButton(
+              onPressed: () {
+                Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => ProdutoCadastroScreen(
+                                produto: _criarNovoProduto())))
+                    .then((produto) => getAllProdutos());
+              },
+              icon: addIcon)
+        ]),
+        body: ListView.separated(
+            itemBuilder: (context, index) => _buildItem(index),
+            separatorBuilder: (context, index) => divisorList(),
+            itemCount: produtos.length),
+        bottomNavigationBar: const BottomNavigatorBarWidget());
   }
 
   Widget _buildItem(int index) {
@@ -89,11 +89,15 @@ class _ProdutoScreenState extends State<ProdutoScreen> {
   Produto _criarNovoProduto() {
     return Produto(
       id: 0,
+      usuarioId: 0,
+      codigoProduto: "",
       nome: "",
       descricao: "",
-      dataCompra: "",
       valorCompra: 0,
       valorVendaPrevisao: 0,
+      quantidade: 0,
+      dataCompra: "",
+      ativo: 1,
     );
   }
 }

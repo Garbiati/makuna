@@ -20,11 +20,13 @@ class VendaDAO {
     final result = List.generate(maps.length, (index) {
       return Venda(
         id: maps[index]['id'],
+        usuarioId: maps[index]['usuarioId'],
+        order: maps[index]['order'],
         clienteId: maps[index]['clienteId'],
-        produtoId: maps[index]['produtoId'],
-        valorVenda: maps[index]['valorVenda'],
-        detail: maps[index]['detail'],
+        detail: maps[index]['detail'],        
         dataVenda: maps[index]['dataVenda'],
+        valorTotalVenda: maps[index]['valorTotalVenda'],
+        ativo: maps[index]['ativo'],
       );
     });
 
