@@ -13,7 +13,7 @@ class Venda {
     required this.usuarioId,
     required this.order,
     required this.clienteId,
-    required this.detail,    
+    required this.detail,
     required this.dataVenda,
     required this.valorTotalVenda,
     required this.ativo,
@@ -25,7 +25,7 @@ class Venda {
       "usuarioId": usuarioId,
       "order": order,
       "clienteId": clienteId,
-      "detail": detail,      
+      "detail": detail,
       "dataVenda": dataVenda,
       "valorTotalVenda": valorTotalVenda,
       "ativo": ativo

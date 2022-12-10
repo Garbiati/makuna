@@ -45,10 +45,10 @@ id INTEGER NOT NULL PRIMARY KEY,
 usuarioId INT NOT NULL,
 order VARCHAR(10) NOT NULL,
 clienteId INT NOT NULL,
-detail VARCHAR(50),
+detail VARCHAR(50) NOT NULL,
 valorTotalVenda DOUBLE NOT NULL,
 dataVenda VARCHAR(10) NOT NULL,
-ativo INT NO NULL
+ativo INT NOT NULL
 );
 ''';
 
@@ -59,6 +59,6 @@ usuarioId INT NOT NULL,
 vendaId INT NOT NULL,
 produtoId INT NOT NULL,
 valorVenda DOUBLE NOT NULL,
-quantidade INT NOT NULL,
+quantidade INT NOT NULL
 );
 ''';

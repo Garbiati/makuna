@@ -93,7 +93,7 @@ class _VendaCadastroScreenState extends State<VendaCadastroScreen> {
       context,
       "Produto",
       "[Lista de Produtos]",
-      vendaProdutos.first.produtoId > 0 ? vendaProdutos.first.produtoId : "",
+      vendaProdutos.isNotEmpty ? vendaProdutos.first.produtoId : "",
       produtosMap,
       (onChangedVal) {
         produtoIdSelecionado = int.parse(onChangedVal);
