@@ -1,5 +1,4 @@
 import 'package:makuna/daos/scripts.dart';
-import 'package:makuna/models/venda.dart';
 import 'package:makuna/models/vendaProduto.dart';
 import 'package:path/path.dart' show join;
 import 'package:sqflite/sqflite.dart';

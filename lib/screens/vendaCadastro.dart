@@ -72,8 +72,8 @@ class _VendaCadastroScreenState extends State<VendaCadastroScreen> {
                 child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      fieldProduto(),
                       fieldCliente(),
+                      fieldProduto(),
                       fieldValorVenda(),
                       fieldObservacao(),
                       fieldDataVenda(),
