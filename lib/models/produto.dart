@@ -6,7 +6,7 @@ class Produto {
   final String descricao;
   final double valorCompra;
   final double valorVendaPrevisao;
-  final int quantidade;
+  int quantidade;
   final String dataCompra;
   final int ativo;
 

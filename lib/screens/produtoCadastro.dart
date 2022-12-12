@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:makuna/components/brasilFields.dart';
 import 'package:makuna/components/input_form.dart';
 import 'package:makuna/daos/produto_dao.dart';
@@ -24,6 +25,7 @@ class _ProdutoCadastroScreenState extends State<ProdutoCadastroScreen> {
   final _dataCompraController = TextEditingController();
   final _valorCompraController = TextEditingController();
   final _valorVendaPrevisaoController = TextEditingController();
+  final _quantidadeProdutoController = TextEditingController();
 
   // N= Novo E = Editando
   String modoTela = '';
@@ -79,6 +81,16 @@ class _ProdutoCadastroScreenState extends State<ProdutoCadastroScreen> {
                           label: "Custo do produto",
                           validationMsg: "Insira o valor de custo do produto",
                           controller: _valorCompraController),
+                      TextField(
+                         decoration: const InputDecoration(
+                            labelText: 'Quantidade',
+                            hintText: '10',                            
+                          ),
+                          keyboardType: TextInputType.number,
+                          inputFormatters: <TextInputFormatter>[
+                            FilteringTextInputFormatter.digitsOnly
+                          ],                          
+                          controller: _quantidadeProdutoController),
                       InputRealForm(
                           hint: "Ex.: 10.000,00",
                           label: "Valor de revenda",
@@ -103,6 +115,7 @@ class _ProdutoCadastroScreenState extends State<ProdutoCadastroScreen> {
           widget.produto.valorCompra.convertDoubleToRealCurrency();
       _valorVendaPrevisaoController.text =
           widget.produto.valorVendaPrevisao.convertDoubleToRealCurrency();
+      _quantidadeProdutoController.text = widget.produto.quantidade.toString();
     }
   }
 
@@ -118,7 +131,7 @@ class _ProdutoCadastroScreenState extends State<ProdutoCadastroScreen> {
                 _valorCompraController.text.convertRealCurrencyToDouble(),
             valorVendaPrevisao: _valorVendaPrevisaoController.text
                 .convertRealCurrencyToDouble(),
-            quantidade: 0,
+            quantidade: int.parse(_quantidadeProdutoController.text),
             dataCompra: _dataCompraController.text,
             ativo: 1);
 

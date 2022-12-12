@@ -35,6 +35,11 @@ class ProdutoDAO {
     return result;
   }
 
+  Future readProduto(int id) async {
+    final db = await getDatabase();
+    return db.query("Produto", where: ' id = ? ', whereArgs: [id]);
+  }
+
   Future<int> insertProduto(Produto produto) async {
     final db = await getDatabase();
     return db.insert("Produto", produto.toMap(),
