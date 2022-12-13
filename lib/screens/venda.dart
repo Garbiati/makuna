@@ -68,7 +68,7 @@ class _VendaScreenState extends State<VendaScreen> {
     Venda venda = vendas[index];
     String nomeCliente =
         clientes.where((c) => c.id == venda.clienteId).first.nome;
-    String nomeProduto = venda.order;
+    String nomeProduto = venda.orderNumber;
 
     return Padding(
       padding: cardPadding,
@@ -99,7 +99,7 @@ class _VendaScreenState extends State<VendaScreen> {
     return Venda(
         id: 0,
         usuarioId: usuarioId,
-        order: "",
+        orderNumber: "",
         clienteId: 0,
         detail: "",
         dataVenda: "",

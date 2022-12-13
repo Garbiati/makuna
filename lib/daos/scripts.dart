@@ -43,7 +43,7 @@ const createTableVenda = '''
 CREATE TABLE Venda(
 id INTEGER NOT NULL PRIMARY KEY,
 usuarioId INT NOT NULL,
-order VARCHAR(10) NOT NULL,
+orderNumber VARCHAR(10) NOT NULL,
 clienteId INT NOT NULL,
 detail VARCHAR(50) NOT NULL,
 valorTotalVenda DOUBLE NOT NULL,

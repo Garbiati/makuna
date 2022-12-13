@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:makuna/utils/customStyles.dart';
-import 'package:path/path.dart';
 
 Widget divisorList() => const Divider(
       height: 2,
