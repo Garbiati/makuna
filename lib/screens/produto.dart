@@ -52,11 +52,21 @@ class _ProdutoScreenState extends State<ProdutoScreen> {
               },
               icon: addIcon)
         ]),
-        body: ListView.separated(
-            itemBuilder: (context, index) => _buildItem(index),
-            separatorBuilder: (context, index) => divisorList(),
-            itemCount: produtos.length),
+        body: _buildBodyScreen(),
         bottomNavigationBar: const BottomNavigatorBarWidget());
+  }
+
+  Widget _buildBodyScreen() {
+    return produtos.isNotEmpty
+        ? _exibirLista()
+        : exibirListaVazia(context, "Nenhum produto cadastrado.");
+  }
+
+  Widget _exibirLista() {
+    return ListView.separated(
+        itemBuilder: (context, index) => _buildItem(index),
+        separatorBuilder: (context, index) => divisorList(),
+        itemCount: produtos.length);
   }
 
   Widget _buildItem(int index) {

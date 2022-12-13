@@ -47,11 +47,21 @@ class _VendaScreenState extends State<VendaScreen> {
               },
               icon: addIcon)
         ]),
-        body: ListView.separated(
-            itemBuilder: (context, index) => _buildItem(index),
-            separatorBuilder: (context, index) => divisorList(),
-            itemCount: vendas.length),
+        body: _buildBodyScreen(),
         bottomNavigationBar: const BottomNavigatorBarWidget());
+  }
+
+  Widget _buildBodyScreen() {
+    return clientes.isNotEmpty
+        ? _exibirLista()
+        : exibirListaVazia(context, "Nenhuma venda realizada.");
+  }
+
+  Widget _exibirLista() {
+    return ListView.separated(
+        itemBuilder: (context, index) => _buildItem(index),
+        separatorBuilder: (context, index) => divisorList(),
+        itemCount: vendas.length);
   }
 
   Widget _buildItem(int index) {

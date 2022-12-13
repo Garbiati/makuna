@@ -18,6 +18,8 @@ class _ClienteScreenState extends State<ClienteScreen> {
   final title = const Text("Meus clientes");
   List<Cliente> clientes = [];
 
+  bool exibirMensagem = true;
+
   @override
   void initState() {
     super.initState();
@@ -29,24 +31,37 @@ class _ClienteScreenState extends State<ClienteScreen> {
     return Scaffold(
         appBar: AppBar(title: title, actions: [
           IconButton(
-              onPressed: () {
-                Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => ClienteCadastroScreen(
-                                cliente: _criarNovoCliente())))
-                    .then((produto) => getAllClientes());
-              },
-              icon: addIcon)
+            onPressed: () {
+              Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => ClienteCadastroScreen(
+                              cliente: _criarNovoCliente())))
+                  .then((produto) => getAllClientes());
+            },
+            icon: addIcon,
+            iconSize: 38,
+          )
         ]),
-        body: ListView.separated(
-            itemBuilder: (context, index) => _buildItem(index),
-            separatorBuilder: (context, index) => divisorList(),
-            itemCount: clientes.length),
+        body: _buildBodyScreen(),
         bottomNavigationBar: const BottomNavigatorBarWidget());
   }
 
 //Construção de tela
+
+  Widget _buildBodyScreen() {
+    return clientes.isNotEmpty
+        ? _exibirLista()
+        : exibirListaVazia(context, "Nenhum cliente cadastrado.");
+  }
+
+  Widget _exibirLista() {
+    return ListView.separated(
+        itemBuilder: (context, index) => _buildItem(index),
+        separatorBuilder: (context, index) => divisorList(),
+        itemCount: clientes.length);
+  }
+
   Widget _buildItem(int index) {
     Cliente cliente = clientes[index];
     return Padding(
