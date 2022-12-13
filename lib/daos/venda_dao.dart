@@ -24,8 +24,8 @@ class VendaDAO {
         orderNumber: maps[index]['orderNumber'],
         clienteId: maps[index]['clienteId'],
         detail: maps[index]['detail'],
-        dataVenda: maps[index]['dataVenda'],
         valorTotalVenda: maps[index]['valorTotalVenda'],
+        dataVenda: maps[index]['dataVenda'],       
         ativo: maps[index]['ativo'],
       );
     });

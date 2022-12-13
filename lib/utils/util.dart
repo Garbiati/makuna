@@ -3,6 +3,7 @@ import 'package:makuna/components/SnackBAR.dart';
 import 'package:makuna/screens/cliente.dart';
 import 'package:makuna/screens/home.dart';
 import 'package:makuna/screens/produto.dart';
+import 'package:makuna/screens/start.dart';
 import 'package:makuna/screens/venda.dart';
 
 void exibirMensagemSucesso(BuildContext context, String mensagem) {
@@ -19,7 +20,7 @@ String validaModoTela(int? id) {
 
 Map<String, Widget Function(BuildContext)> obterRotas() {
   return {
-    "/": (context) => const HomeScreen(title: "Home"),
+    "/": (context) => const StartScreen(),
     "/produto": (context) => const ProdutoScreen(),
     "/cliente": (context) => const ClienteScreen(),
     "/venda": (context) => const VendaScreen(),
