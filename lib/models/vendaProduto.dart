@@ -3,14 +3,17 @@ class VendaProduto {
   final int usuarioId;
   int vendaId;
   final int produtoId;
+  final double valorVenda;
   final int quantidade;
 
-  VendaProduto(
-      {this.id,
-      required this.usuarioId,
-      required this.vendaId,
-      required this.produtoId,
-      required this.quantidade});
+  VendaProduto({
+    this.id,
+    required this.usuarioId,
+    required this.vendaId,
+    required this.produtoId,
+    required this.valorVenda,
+    required this.quantidade,
+  });
 
   Map<String, dynamic> toMap() {
     return {
@@ -18,6 +21,7 @@ class VendaProduto {
       "usuarioId": usuarioId,
       "vendaId": vendaId,
       "produtoId": produtoId,
+      "valorVenda": valorVenda,
       "quantidade": quantidade,
     };
   }

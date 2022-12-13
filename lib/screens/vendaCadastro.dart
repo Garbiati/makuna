@@ -229,6 +229,8 @@ class _VendaCadastroScreenState extends State<VendaCadastroScreen> {
             usuarioId: usuarioId,
             vendaId: widget.venda.id!,
             produtoId: produtoIdSelecionado,
+            valorVenda:
+                _valorVendaCompraController.text.convertRealCurrencyToDouble(),
             quantidade: 1);
 
         if (modoTela == "N") {

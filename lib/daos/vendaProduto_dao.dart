@@ -23,6 +23,7 @@ class VendaProdutoDAO {
         usuarioId: maps[index]['usuarioId'],
         vendaId: maps[index]['vendaId'],
         produtoId: maps[index]['produtoId'],
+        valorVenda: maps[index]['valorVenda'],
         quantidade: maps[index]['quantidade'],
       );
     });
@@ -41,6 +42,7 @@ class VendaProdutoDAO {
         usuarioId: maps[index]['usuarioId'],
         vendaId: maps[index]['vendaId'],
         produtoId: maps[index]['produtoId'],
+        valorVenda: maps[index]['valorVenda'],
         quantidade: maps[index]['quantidade'],
       );
     });
