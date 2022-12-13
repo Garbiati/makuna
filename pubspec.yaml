@@ -36,11 +36,12 @@ flutter:
   - images/MenuVenda.svg
   - images/icoProdutoDefault.svg
   - images/icoVerificar.svg
-  - images/007-list.svg
-  - images/003-clipboard.svg
-  - images/006-cart.svg
-  - images/005-laptop.svg
-  - images/avatarUsuario.svg
+  - images/Vectorvazio.svg
+
+  - images/criarRegistro.png
+
+
+
 
 
   
