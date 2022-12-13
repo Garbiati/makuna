@@ -52,51 +52,54 @@ class _ProdutoCadastroScreenState extends State<ProdutoCadastroScreen> {
             padding: cardPadding,
             child: Form(
                 key: _formKey,
-                child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      InputForm(
-                        hint: "Ex.: iPhone 14, RTX 4090",
-                        label: "Nome do produto",
-                        validationMsg: "Insira o nome do produto",
-                        controller: _nomeController,
-                        maxLength: 50,
-                      ),
-                      InputForm(
-                        hint: "Ex.: Pro Max preto 500 GB",
-                        label: "Modelo ou descrição do produto",
-                        validationMsg:
-                            "Insira o modelo ou descrição do produto",
-                        controller: _descricaoController,
-                        maxLength: 50,
-                      ),
-                      InputDataForm(
-                          hint: "Ex.: 25/10/2022",
-                          label: "Data de compra",
+                child: SingleChildScrollView(
+                  child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        InputForm(
+                          hint: "Ex.: iPhone 14, RTX 4090",
+                          label: "Nome do produto",
+                          validationMsg: "Insira o nome do produto",
+                          controller: _nomeController,
+                          maxLength: 50,
+                        ),
+                        InputForm(
+                          hint: "Ex.: Pro Max preto 500 GB",
+                          label: "Modelo ou descrição do produto",
                           validationMsg:
-                              "Insira a data que o produto foi comprado",
-                          controller: _dataCompraController),
-                      InputRealForm(
-                          hint: "Ex.: 7.500,00",
-                          label: "Custo do produto",
-                          validationMsg: "Insira o valor de custo do produto",
-                          controller: _valorCompraController),
-                      TextField(
-                         decoration: const InputDecoration(
-                            labelText: 'Quantidade',
-                            hintText: '10',                            
-                          ),
-                          keyboardType: TextInputType.number,
-                          inputFormatters: <TextInputFormatter>[
-                            FilteringTextInputFormatter.digitsOnly
-                          ],                          
-                          controller: _quantidadeProdutoController),
-                      InputRealForm(
-                          hint: "Ex.: 10.000,00",
-                          label: "Valor de revenda",
-                          validationMsg: "Insira o valor que pretende revender",
-                          controller: _valorVendaPrevisaoController),
-                    ]))));
+                              "Insira o modelo ou descrição do produto",
+                          controller: _descricaoController,
+                          maxLength: 50,
+                        ),
+                        InputDataForm(
+                            hint: "Ex.: 25/10/2022",
+                            label: "Data de compra",
+                            validationMsg:
+                                "Insira a data que o produto foi comprado",
+                            controller: _dataCompraController),
+                        InputRealForm(
+                            hint: "Ex.: 7.500,00",
+                            label: "Custo do produto",
+                            validationMsg: "Insira o valor de custo do produto",
+                            controller: _valorCompraController),
+                        TextField(
+                            decoration: const InputDecoration(
+                              labelText: 'Quantidade',
+                              hintText: '10',
+                            ),
+                            keyboardType: TextInputType.number,
+                            inputFormatters: <TextInputFormatter>[
+                              FilteringTextInputFormatter.digitsOnly
+                            ],
+                            controller: _quantidadeProdutoController),
+                        InputRealForm(
+                            hint: "Ex.: 10.000,00",
+                            label: "Valor de revenda",
+                            validationMsg:
+                                "Insira o valor que pretende revender",
+                            controller: _valorVendaPrevisaoController),
+                      ]),
+                ))));
   }
 
 //Telas e validações

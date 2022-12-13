@@ -8,7 +8,7 @@ class VendaProdutoDAO {
     Database db = await openDatabase(
         join(await getDatabasesPath(), 'vendaProduto_database.db'),
         onCreate: ((db, version) {
-      return db.execute(createTableVenda);
+      return db.execute(createTableVendaProduto);
     }), version: 1);
     return db;
   }
