@@ -1,7 +1,5 @@
-import 'package:avatars/avatars.dart';
 import 'package:brasil_fields/brasil_fields.dart';
 import 'package:flutter/material.dart';
-import 'package:makuna/components/bottomNavigatorBar.dart';
 import 'package:makuna/daos/produto_dao.dart';
 import 'package:makuna/models/produto.dart';
 import 'package:makuna/screens/produtoCadastro.dart';
