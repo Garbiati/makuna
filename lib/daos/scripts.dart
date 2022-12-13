@@ -42,9 +42,9 @@ ativo INTEGER NOT NULL
 const createTableVenda = '''
 CREATE TABLE Venda(
 id INTEGER NOT NULL PRIMARY KEY,
-usuarioId INTEGER NOT NULL,
-saleOrder VARCHAR(10) NOT NULL,
-clienteId INTEGER NOT NULL,
+usuarioId INT NOT NULL,
+orderNumber VARCHAR(10) NOT NULL,
+clienteId INT NOT NULL,
 detail VARCHAR(50) NOT NULL,
 valorTotalVenda DOUBLE NOT NULL,
 dataVenda VARCHAR(10) NOT NULL,

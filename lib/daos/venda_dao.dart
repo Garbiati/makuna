@@ -21,9 +21,9 @@ class VendaDAO {
       return Venda(
         id: maps[index]['id'],
         usuarioId: maps[index]['usuarioId'],
-        saleOrder: maps[index]['saleOrder'],
+        orderNumber: maps[index]['orderNumber'],
         clienteId: maps[index]['clienteId'],
-        detail: maps[index]['detail'],        
+        detail: maps[index]['detail'],
         valorTotalVenda: maps[index]['valorTotalVenda'],
         dataVenda: maps[index]['dataVenda'],       
         ativo: maps[index]['ativo'],

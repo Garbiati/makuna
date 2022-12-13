@@ -1,6 +1,5 @@
 import 'package:avatars/avatars.dart';
 import 'package:flutter/material.dart';
-import 'package:makuna/components/SnackBAR.dart';
 import 'package:makuna/components/input_form.dart';
 import 'package:makuna/daos/cliente_dao.dart';
 import 'package:makuna/models/cliente.dart';
@@ -49,14 +48,16 @@ class _ClienteCadastroScreenState extends State<ClienteCadastroScreen> {
             padding: cardPadding,
             child: Form(
                 key: _formKey,
-                child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      fieldAvatar(),
-                      fieldNome(),
-                      fieldTelefone(),
-                      fieldEmail(),
-                    ]))));
+                child: SingleChildScrollView(
+                  child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        fieldAvatar(),
+                        fieldNome(),
+                        fieldTelefone(),
+                        fieldEmail(),
+                      ]),
+                ))));
   }
 
 //Fields

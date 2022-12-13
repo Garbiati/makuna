@@ -1,7 +1,7 @@
 class Venda {
   int? id;
   final int usuarioId;
-  final String saleOrder;
+  final String orderNumber;
   final int clienteId;
   final String detail;
   final double valorTotalVenda;
@@ -11,7 +11,7 @@ class Venda {
   Venda({
     this.id,
     required this.usuarioId,
-    required this.saleOrder,
+    required this.orderNumber,
     required this.clienteId,
     required this.detail,
     required this.dataVenda,
@@ -23,7 +23,7 @@ class Venda {
     return {
       "id": id,
       "usuarioId": usuarioId,
-      "saleOrder": saleOrder,
+      "orderNumber": orderNumber,
       "clienteId": clienteId,
       "detail": detail,
       "dataVenda": dataVenda,

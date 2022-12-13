@@ -69,15 +69,17 @@ class _VendaCadastroScreenState extends State<VendaCadastroScreen> {
             padding: cardPadding,
             child: Form(
                 key: _formKey,
-                child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      fieldCliente(),
-                      fieldProduto(),
-                      fieldValorVenda(),
-                      fieldObservacao(),
-                      fieldDataVenda(),
-                    ]))));
+                child: SingleChildScrollView(
+                  child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        fieldCliente(),
+                        fieldProduto(),
+                        fieldValorVenda(),
+                        fieldObservacao(),
+                        fieldDataVenda(),
+                      ]),
+                ))));
   }
 
   Widget fieldProduto() {
@@ -210,12 +212,12 @@ class _VendaCadastroScreenState extends State<VendaCadastroScreen> {
   }
 
 //Persistencias
-  void salvarFormulario() {
+  void salvarFormulario() async {
     if (_formKey.currentState!.validate()) {
       try {
         Venda venda = Venda(
             usuarioId: usuarioId,
-            saleOrder: "O00001",
+            orderNumber: "O00001",
             clienteId: clienteIdSelecionado > 0
                 ? clienteIdSelecionado
                 : widget.venda.clienteId,
@@ -234,12 +236,13 @@ class _VendaCadastroScreenState extends State<VendaCadastroScreen> {
             quantidade: 1);
 
         if (modoTela == "N") {
-          insertVenda(venda);
-
-          vendaProduto.vendaId = venda.id!;
-          insertVendaProduto(vendaProduto);
-
-          exibirMensagemSucesso(context, "Venda realizada com sucesso.");
+          insertVenda(venda).then((value) {
+            venda.id = value;
+            vendaProduto.vendaId = venda.id!;
+            insertVendaProduto(vendaProduto);
+            exibirMensagemSucesso(context, "Venda realizada com sucesso.");
+            Navigator.pop(context);
+          });
         } else {
           venda.id = widget.venda.id;
           updateVenda(venda);
@@ -274,11 +277,13 @@ class _VendaCadastroScreenState extends State<VendaCadastroScreen> {
     });
   }
 
-  insertVenda(Venda venda) async {
+  Future<int> insertVenda(Venda venda) async {
     int id = await VendaDAO().insertVenda(venda);
     setState(() {
       venda.id = id;
     });
+
+    return id;
   }
 
   insertVendaProduto(VendaProduto vendaProduto) async {
