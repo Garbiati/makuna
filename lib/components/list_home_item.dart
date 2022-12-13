@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../utils/customWidgets.dart';
+
 class ListHomeItem extends StatelessWidget {
   const ListHomeItem(
       {super.key,
@@ -20,7 +21,7 @@ class ListHomeItem extends StatelessWidget {
       title: Text(title),
       subtitle: Text(subtitle),
       trailing: const Icon(Icons.navigate_next),
-      onTap: () {
+      onTap: () {        
         Navigator.pushNamed(context, route);
       },
     );

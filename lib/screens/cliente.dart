@@ -1,6 +1,6 @@
 import 'package:avatars/avatars.dart';
 import 'package:flutter/material.dart';
-import 'package:makuna/components/bottomNavigatorBar.dart';
+
 import 'package:makuna/models/cliente.dart';
 import 'package:makuna/screens/clienteCadastro.dart';
 import 'package:makuna/utils/customStyles.dart';
