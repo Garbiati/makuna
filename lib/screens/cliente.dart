@@ -43,8 +43,7 @@ class _ClienteScreenState extends State<ClienteScreen> {
             iconSize: 38,
           )
         ]),
-        body: _buildBodyScreen(),
-        bottomNavigationBar: const BottomNavigatorBarWidget());
+        body: _buildBodyScreen());
   }
 
 //Construção de tela

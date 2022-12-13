@@ -1,3 +1,4 @@
+import 'package:avatars/avatars.dart';
 import 'package:brasil_fields/brasil_fields.dart';
 import 'package:flutter/material.dart';
 import 'package:makuna/components/bottomNavigatorBar.dart';
@@ -42,18 +43,19 @@ class _ProdutoScreenState extends State<ProdutoScreen> {
     return Scaffold(
         appBar: AppBar(title: title, actions: [
           IconButton(
-              onPressed: () {
-                Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => ProdutoCadastroScreen(
-                                produto: _criarNovoProduto())))
-                    .then((produto) => getAllProdutos());
-              },
-              icon: addIcon)
+            onPressed: () {
+              Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => ProdutoCadastroScreen(
+                              produto: _criarNovoProduto())))
+                  .then((produto) => getAllProdutos());
+            },
+            icon: addIcon,
+            iconSize: 38,
+          )
         ]),
-        body: _buildBodyScreen(),
-        bottomNavigationBar: const BottomNavigatorBarWidget());
+        body: _buildBodyScreen());
   }
 
   Widget _buildBodyScreen() {
@@ -69,6 +71,18 @@ class _ProdutoScreenState extends State<ProdutoScreen> {
         itemCount: produtos.length);
   }
 
+  Widget fieldQuantidade(Produto produto) => Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          const Text("Qtd.", style: tituloMenuTextStyle),
+          Text(
+            produto.quantidade.toString(),
+            style: descMenuTextStyle,
+          )
+        ],
+      );
+
   Widget _buildItem(int index) {
     Produto produto = produtos[index];
     return Padding(
@@ -76,7 +90,8 @@ class _ProdutoScreenState extends State<ProdutoScreen> {
       child: Container(
         decoration: cardBoxStyle(),
         child: ListTile(
-          leading: buildSvgIcon("images/icoProdutoDefault.svg"),
+          leading: fieldQuantidade(
+              produto), // buildSvgIcon("images/icoProdutoDefault.svg"),
           title: Text(produto.nome),
           subtitle:
               Text(UtilBrasilFields.obterReal(produto.valorVendaPrevisao)),

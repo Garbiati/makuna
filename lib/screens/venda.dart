@@ -37,18 +37,19 @@ class _VendaScreenState extends State<VendaScreen> {
     return Scaffold(
         appBar: AppBar(title: title, actions: [
           IconButton(
-              onPressed: () {
-                Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) =>
-                                VendaCadastroScreen(venda: _criarNovaVenda())))
-                    .then((venda) => getAllVendas());
-              },
-              icon: addIcon)
+            onPressed: () {
+              Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) =>
+                              VendaCadastroScreen(venda: _criarNovaVenda())))
+                  .then((venda) => getAllVendas());
+            },
+            icon: addIcon,
+            iconSize: 38,
+          )
         ]),
-        body: _buildBodyScreen(),
-        bottomNavigationBar: const BottomNavigatorBarWidget());
+        body: _buildBodyScreen());
   }
 
   Widget _buildBodyScreen() {
@@ -68,7 +69,7 @@ class _VendaScreenState extends State<VendaScreen> {
     Venda venda = vendas[index];
     String nomeCliente =
         clientes.where((c) => c.id == venda.clienteId).first.nome;
-    String nomeProduto = venda.order;
+    String nomeProduto = venda.saleOrder;
 
     return Padding(
       padding: cardPadding,
@@ -99,7 +100,7 @@ class _VendaScreenState extends State<VendaScreen> {
     return Venda(
         id: 0,
         usuarioId: usuarioId,
-        order: "",
+        saleOrder: "",
         clienteId: 0,
         detail: "",
         dataVenda: "",

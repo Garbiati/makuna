@@ -23,6 +23,9 @@ const dialogMessageTextStyle = TextStyle(
   color: Colors.black,
 );
 
+const tituloMenuTextStyle = TextStyle(fontSize: 20);
+const descMenuTextStyle = TextStyle(fontSize: 18);
+
 BoxDecoration cardBoxStyle() => BoxDecoration(
     border: Border.all(color: Colors.grey),
     borderRadius: BorderRadius.circular(5));

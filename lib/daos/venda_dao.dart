@@ -21,11 +21,11 @@ class VendaDAO {
       return Venda(
         id: maps[index]['id'],
         usuarioId: maps[index]['usuarioId'],
-        order: maps[index]['order'],
+        saleOrder: maps[index]['saleOrder'],
         clienteId: maps[index]['clienteId'],
         detail: maps[index]['detail'],        
-        dataVenda: maps[index]['dataVenda'],
         valorTotalVenda: maps[index]['valorTotalVenda'],
+        dataVenda: maps[index]['dataVenda'],       
         ativo: maps[index]['ativo'],
       );
     });

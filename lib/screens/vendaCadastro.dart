@@ -215,7 +215,7 @@ class _VendaCadastroScreenState extends State<VendaCadastroScreen> {
       try {
         Venda venda = Venda(
             usuarioId: usuarioId,
-            order: "O00001",
+            saleOrder: "O00001",
             clienteId: clienteIdSelecionado > 0
                 ? clienteIdSelecionado
                 : widget.venda.clienteId,
