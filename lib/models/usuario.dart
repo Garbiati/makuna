@@ -1,6 +1,7 @@
 class Usuario {
   final int? id;
   final String nome;
+  final String sobreNome;
   final String email;
   final String usuario;
   final String senha;
@@ -9,6 +10,7 @@ class Usuario {
   Usuario(
       {this.id,
       required this.nome,
+      required this.sobreNome,
       required this.email,
       required this.usuario,
       required this.senha,
@@ -18,6 +20,7 @@ class Usuario {
     return {
       "id": id,
       "nome": nome,
+      "sobreNome": sobreNome,
       "email": email,
       "usuario": usuario,
       "senha": senha,

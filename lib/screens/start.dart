@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:makuna/screens/cliente.dart';
 import 'package:makuna/screens/config.dart';
 import 'package:makuna/screens/home.dart';
 import 'package:makuna/screens/produto.dart';
 import 'package:makuna/screens/profile.dart';
 import 'package:makuna/screens/venda.dart';
+import 'package:makuna/utils/usuarioHelper.dart';
 
 class StartScreen extends StatefulWidget {
   const StartScreen({super.key});
@@ -18,6 +17,7 @@ class StartScreen extends StatefulWidget {
 class _StartScreenState extends State<StartScreen> {
   final title = const Text("Makuna, controle de revendas.");
   int _selectedIndex = 0;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

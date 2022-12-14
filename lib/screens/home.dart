@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:makuna/components/cardHome.dart';
-import 'package:makuna/components/list_home_item.dart';
-import 'package:makuna/utils/customWidgets.dart';
+
 import 'package:makuna/utils/usuarioHelper.dart';
 
 class HomeScreen extends StatefulWidget {
