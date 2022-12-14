@@ -2,6 +2,7 @@ const createTableUsuario = '''
 CREATE TABLE Usuario(
 id INTEGER NOT NULL PRIMARY KEY, 
 nome VARCHAR(50) NOT NULL, 
+sobreNome VARCHAR(50) NOT NULL, 
 email VARCHAR(150) NOT NULL,
 usuario VARCHAR(10) NOT NULL,
 senha VARCHAR(10) NOT NULL,
