@@ -39,6 +39,7 @@ class _ClienteCadastroScreenState extends State<ClienteCadastroScreen> {
           actions: [
             IconButton(
                 icon: const Icon(Icons.save),
+                iconSize: 38,
                 onPressed: () {
                   salvarFormulario();
                 })
