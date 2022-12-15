@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:makuna/components/SnackBAR.dart';
 import 'package:makuna/screens/cliente.dart';
-import 'package:makuna/screens/home.dart';
 import 'package:makuna/screens/produto.dart';
 import 'package:makuna/screens/start.dart';
 import 'package:makuna/screens/venda.dart';
+import 'dart:math';
 
 void exibirMensagemSucesso(BuildContext context, String mensagem) {
   showSnackBAR(mensagem, context, Colors.blueAccent, Colors.black);
@@ -18,6 +19,10 @@ String validaModoTela(int? id) {
   return id! > 0 ? "E" : "N";
 }
 
+String getDataHoje() {
+  return DateFormat('dd/MM/yyyy').format(DateTime.now());
+}
+
 Map<String, Widget Function(BuildContext)> obterRotas() {
   return {
     "/": (context) => const StartScreen(),
@@ -25,6 +30,17 @@ Map<String, Widget Function(BuildContext)> obterRotas() {
     "/cliente": (context) => const ClienteScreen(),
     "/venda": (context) => const VendaScreen(),
   };
+}
+
+String generateRandomString(int len) {
+  var r = Random();
+  const chars =
+      'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890';
+  return List.generate(len, (index) => chars[r.nextInt(chars.length)]).join();
+}
+
+String generateOS() {
+  return generateRandomString(10);
 }
 
 class MakunaSiteMap {

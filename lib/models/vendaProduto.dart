@@ -3,8 +3,8 @@ class VendaProduto {
   final int usuarioId;
   int vendaId;
   final int produtoId;
-  final double valorVenda;
-  final int quantidade;
+  double valorVenda;
+  int quantidade;
 
   VendaProduto({
     this.id,

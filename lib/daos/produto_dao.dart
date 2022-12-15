@@ -35,6 +35,8 @@ class ProdutoDAO {
     return result;
   }
 
+
+
   Future readProduto(int id) async {
     final db = await getDatabase();
     return db.query("Produto", where: ' id = ? ', whereArgs: [id]);

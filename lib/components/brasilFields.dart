@@ -21,29 +21,34 @@ class InputDataForm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return TextFormField(
-        inputFormatters: [
-          FilteringTextInputFormatter.digitsOnly,
-          DataInputFormatter()
-        ],
-        maxLength: 10,
-        keyboardType: TextInputType.datetime,
-        decoration: InputDecoration(hintText: hint, labelText: label),
-        controller: controller,
-        autovalidateMode: AutovalidateMode.onUserInteraction,
-        enabled: enabled,
-        validator: ((value) {
-          if (value == null || value.isEmpty) {
-            return validationMsg;
-          }
+    return SizedBox(
+        width: 90,
+        child: TextFormField(
+            inputFormatters: [
+              FilteringTextInputFormatter.digitsOnly,
+              DataInputFormatter()
+            ],
+            maxLength: 10,
+            keyboardType: TextInputType.datetime,
+            decoration: InputDecoration(
+              hintText: hint,
+              labelText: label,
+            ),
+            controller: controller,
+            autovalidateMode: AutovalidateMode.onUserInteraction,
+            enabled: enabled,
+            validator: ((value) {
+              if (value == null || value.isEmpty) {
+                return validationMsg;
+              }
 
-          try {
-            UtilData.obterDateTime(value);
-          } catch (e) {
-            return "Formato de data inválida";
-          }
-          return null;
-        }));
+              try {
+                UtilData.obterDateTime(value);
+              } catch (e) {
+                return "Formato de data inválida";
+              }
+              return null;
+            })));
   }
 }
 
