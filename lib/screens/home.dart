@@ -220,42 +220,43 @@ class _HomeScreenState extends State<HomeScreen> {
 
   getComprasClientes() async {
     List<Venda> vendaProduto = await VendaDAO().readAll();
+    if (vendaProduto.length > 0) {
+      DateTime now = DateTime.now();
 
-    DateTime now = DateTime.now();
+      if (itemDropdownAtual == 'Mensal') {
+        vendaProduto = vendaProduto
+            .where((element) =>
+                element.dataVenda.convertToDateTime().month == now.month)
+            .toList();
+      } else if (itemDropdownAtual == 'Anual') {
+        vendaProduto = vendaProduto
+            .where((element) =>
+                element.dataVenda.convertToDateTime().year == now.year)
+            .toList();
+      }
 
-    if (itemDropdownAtual == 'Mensal') {
-      vendaProduto = vendaProduto
-          .where((element) =>
-              element.dataVenda.convertToDateTime().month == now.month)
-          .toList();
-    } else if (itemDropdownAtual == 'Anual') {
-      vendaProduto = vendaProduto
-          .where((element) =>
-              element.dataVenda.convertToDateTime().year == now.year)
-          .toList();
+      Map vendasMap = <int, int>{};
+      for (var venda in vendaProduto) {
+        vendasMap[venda.clienteId] = !vendasMap.containsKey(venda.clienteId)
+            ? (1)
+            : (vendasMap[venda.clienteId] + 1);
+      }
+
+      var vendasMapSorted = Map.fromEntries(vendasMap.entries.toList()
+        ..sort((e1, e2) => e1.value.compareTo(e2.value)));
+
+      final int clienteIdMenosCompra = vendasMapSorted.entries.first.key;
+      final int clienteIdMaisCompra = vendasMapSorted.entries.last.key;
+
+      final clienteMenosCompra =
+          await ClienteDAO().readAllById(clienteIdMenosCompra);
+      final clienteMaisCompra =
+          await ClienteDAO().readAllById(clienteIdMaisCompra);
+
+      setState(() {
+        nomeClienteMenosCompra = clienteMenosCompra.first.nome;
+        nomeClienteMaisCompra = clienteMaisCompra.first.nome;
+      });
     }
-
-    Map vendasMap = <int, int>{};
-    for (var venda in vendaProduto) {
-      vendasMap[venda.clienteId] = !vendasMap.containsKey(venda.clienteId)
-          ? (1)
-          : (vendasMap[venda.clienteId] + 1);
-    }
-
-    var vendasMapSorted = Map.fromEntries(vendasMap.entries.toList()
-      ..sort((e1, e2) => e1.value.compareTo(e2.value)));
-
-    final int clienteIdMenosCompra = vendasMapSorted.entries.first.key;
-    final int clienteIdMaisCompra = vendasMapSorted.entries.last.key;
-
-    final clienteMenosCompra =
-        await ClienteDAO().readAllById(clienteIdMenosCompra);
-    final clienteMaisCompra =
-        await ClienteDAO().readAllById(clienteIdMaisCompra);
-
-    setState(() {
-      nomeClienteMenosCompra = clienteMenosCompra.first.nome;
-      nomeClienteMaisCompra = clienteMaisCompra.first.nome;
-    });
   }
 }
