@@ -24,7 +24,7 @@ const dialogMessageTextStyle = TextStyle(
 );
 
 const tituloCardTextStyle = TextStyle(fontSize: 20);
-const descCardTextStyle = TextStyle(fontSize: 18);
+const descCardTextStyle = TextStyle(fontSize: 18, color: Colors.grey);
 
 const tituloMenuTextStyle = TextStyle(fontSize: 20);
 const descMenuTextStyle = TextStyle(fontSize: 18);
