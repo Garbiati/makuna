@@ -128,7 +128,6 @@ class _VendaCadastroScreenState extends State<VendaCadastroScreen> {
     result.add(getHeader());
     result.add(divisorResumo());
     double valortotal = 0;
-
     for (VendaProduto produto in vendaProdutos) {
       if (valortotal > 0) result.add(const MySeparator());
       String desc = produtos.where((p) => p.id == produto.produtoId).first.nome;
@@ -137,6 +136,7 @@ class _VendaCadastroScreenState extends State<VendaCadastroScreen> {
       result.add(getProdutoRow(produto.quantidade.toString(), desc,
           produto.valorVenda.convertDoubleToRealCurrency(false)));
     }
+
     result.add(divisorResumo());
     result.add(paddingBott10());
     result.add(getValorTotal(valortotal.convertDoubleToRealCurrency(true)));
@@ -145,6 +145,15 @@ class _VendaCadastroScreenState extends State<VendaCadastroScreen> {
       padding: const EdgeInsets.only(top: 30),
       child: Column(children: result),
     );
+  }
+
+  double calcularValorTotal() {
+    double valortotal = 0;
+    for (VendaProduto produto in vendaProdutos) {
+      valortotal += produto.valorVenda;
+    }
+
+    return valortotal;
   }
 
   Future<void> exibirModalProdutos(BuildContext context) {
@@ -431,16 +440,19 @@ class _VendaCadastroScreenState extends State<VendaCadastroScreen> {
             ativo: 1);
 
         if (modoTela == "N") {
-          insertVenda(venda);
+          insertVenda(venda).then((id) async {
+            venda.id = id;
+            for (var vendaProduto in vendaProdutos) {
+              vendaProduto.vendaId = venda.id!;
+              await insertVendaProduto(vendaProduto);
+            }
 
-          for (var vendaProduto in vendaProdutos) {
-            vendaProduto.vendaId = venda.id!;
-            insertVendaProduto(vendaProduto);
+            venda.valorTotalVenda = calcularValorTotal();
+            await updateVenda(venda);
 
-            print(vendaProduto);
-          }
-
-          exibirMensagemSucesso(context, "Venda realizada com sucesso.");
+            exibirMensagemSucesso(context, "Venda realizada com sucesso.");
+            Navigator.pop(context);
+          });
         } else {
           venda.id = widget.venda.id;
           updateVenda(venda);
@@ -451,8 +463,8 @@ class _VendaCadastroScreenState extends State<VendaCadastroScreen> {
               });
 
           exibirMensagemSucesso(context, "Venda atualizada com sucesso.");
+          Navigator.pop(context);
         }
-        Navigator.pop(context);
       } catch (e) {
         exibirMensagemFalha(context, "Falha ao salvar as informações");
       }
@@ -482,27 +494,19 @@ class _VendaCadastroScreenState extends State<VendaCadastroScreen> {
 
   Future<int> insertVenda(Venda venda) async {
     int id = await VendaDAO().insertVenda(venda);
-    setState(() {
-      venda.id = id;
-    });
 
     return id;
   }
 
   insertVendaProduto(VendaProduto vendaProduto) async {
-    int id = await VendaProdutoDAO().insertVendaProduto(vendaProduto);
-    setState(() {
-      vendaProduto.id = id;
-    });
+    await VendaProdutoDAO().insertVendaProduto(vendaProduto);
   }
 
   updateVenda(Venda venda) async {
     await VendaDAO().updateVenda(venda);
-    setState(() {});
   }
 
   updateVendaProduto(VendaProduto vendaProduto) async {
     await VendaProdutoDAO().updateVendaProduto(vendaProduto);
-    setState(() {});
   }
 }

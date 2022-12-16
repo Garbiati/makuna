@@ -1,21 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:makuna/utils/customStyles.dart';
+import 'package:makuna/utils/customWidgets.dart';
 
 class CardHomeWidget extends StatelessWidget {
-  const CardHomeWidget({
-    super.key,
-    required this.titulo,
-    required this.desc1,
-    required this.desc2,
-    required this.icon,
-    required this.iconColor,
-  });
+  const CardHomeWidget(
+      {super.key,
+      required this.titulo,
+      required this.desc1,
+      required this.desc2,
+      required this.icon,
+      required this.iconColor,
+      required this.textoInformation});
 
   final String titulo;
   final String desc1;
   final String desc2;
   final IconData icon;
   final Color iconColor;
+  final String textoInformation;
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +31,7 @@ class CardHomeWidget extends StatelessWidget {
           onTap: () {},
           child: SizedBox(
             width: 350,
-            height: 120,
+            height: 113,
             child: Padding(
               padding: const EdgeInsets.all(8.0),
               child: Column(children: [
@@ -37,10 +39,23 @@ class CardHomeWidget extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
                     SizedBox(
-                      width: 190,
-                      child: Text(
-                        titulo,
-                        style: tituloCardTextStyle,
+                      width: 215,
+                      child: Row(
+                        children: [
+                          IconButton(
+                            icon: const Icon(Icons.info),
+                            iconSize: 30,
+                            onPressed: () => exibirMensagemHome(
+                              context,
+                              "Como funciona o cálculo das informações?",
+                              textoInformation,
+                            ),
+                          ),
+                          Text(
+                            titulo,
+                            style: tituloCardTextStyle,
+                          ),
+                        ],
                       ),
                     ),
                     Padding(
@@ -50,7 +65,7 @@ class CardHomeWidget extends StatelessWidget {
                           borderRadius: BorderRadius.circular(24.0),
                           child: Center(
                               child: Padding(
-                            padding: const EdgeInsets.all(16.0),
+                            padding: const EdgeInsets.all(10.0),
                             child: Icon(icon, color: Colors.white, size: 20.0),
                           ))),
                     )

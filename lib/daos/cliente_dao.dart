@@ -54,25 +54,21 @@ class ClienteDAO {
     return result;
   }
 
-  Future<List<Cliente>> readAllById(int id) async {
+  Future<Cliente> readAllById(int id) async {
     final db = await getDatabase();
     final List<Map<String, dynamic>> maps =
         await db.query("Cliente", where: ' id = ? ', whereArgs: [id]);
 
-    final result = List.generate(maps.length, (index) {
-      return Cliente(
-        id: maps[index]['id'],
-        usuarioId: maps[index]['usuarioId'],
-        nome: maps[index]['nome'],
-        telefone: maps[index]['telefone'],
-        email: maps[index]['email'],
-        urlAvatar: maps[index]['urlAvatar'],
-        dataCadastro: maps[index]['dataCadastro'],
-        ativo: maps[index]['ativo'],
-      );
-    });
-
-    return result;
+    return Cliente(
+      id: maps[0]['id'],
+      usuarioId: maps[0]['usuarioId'],
+      nome: maps[0]['nome'],
+      telefone: maps[0]['telefone'],
+      email: maps[0]['email'],
+      urlAvatar: maps[0]['urlAvatar'],
+      dataCadastro: maps[0]['dataCadastro'],
+      ativo: maps[0]['ativo'],
+    );
   }
 
   Future<int> insertCliente(Cliente cliente) async {
