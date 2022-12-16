@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:makuna/screens/cliente.dart';
-import 'package:makuna/screens/config.dart';
 import 'package:makuna/screens/home.dart';
 import 'package:makuna/screens/produto.dart';
-import 'package:makuna/screens/profile.dart';
 import 'package:makuna/screens/venda.dart';
-import 'package:makuna/utils/usuarioHelper.dart';
 
 class StartScreen extends StatefulWidget {
   const StartScreen({super.key});

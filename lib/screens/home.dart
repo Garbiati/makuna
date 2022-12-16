@@ -3,11 +3,9 @@ import 'package:intl/intl.dart';
 import 'package:makuna/components/cardHome.dart';
 import 'package:makuna/daos/cliente_dao.dart';
 import 'package:makuna/daos/produto_dao.dart';
-import 'package:makuna/daos/vendaProduto_dao.dart';
 import 'package:makuna/daos/venda_dao.dart';
 import 'package:makuna/models/produto.dart';
 import 'package:makuna/models/venda.dart';
-import 'package:makuna/models/vendaProduto.dart';
 import 'package:makuna/utils/customStyles.dart';
 import 'package:makuna/utils/extension.dart';
 
@@ -31,6 +29,8 @@ class _HomeScreenState extends State<HomeScreen> {
   static final List<String> opcoesDropdown = ['Todos', 'Mensal', 'Anual'];
   String itemDropdownAtual = opcoesDropdown[0];
   bool isLoading = false;
+  List<Produto> produtos = <Produto>[];
+  List<Venda> vendas = <Venda>[];
 
   @override
   Widget build(BuildContext context) {
@@ -50,9 +50,14 @@ class _HomeScreenState extends State<HomeScreen> {
     setState(() {
       isLoading = true;
     });
-    await getInventario();
+
+    await getProdutos();
     await getVendas();
+
+    await getInventario();
+    await getVendasCard();
     await getComprasClientes();
+
     setState(() {
       isLoading = false;
     });
@@ -162,8 +167,8 @@ class _HomeScreenState extends State<HomeScreen> {
     }
   }
 
-  getInventario() async {
-    List<Produto> produtos = await ProdutoDAO().readAll();
+  getProdutos() async {
+    produtos = await ProdutoDAO().readAll();
     if (produtos.isNotEmpty) {
       DateTime now = DateTime.now();
 
@@ -179,68 +184,59 @@ class _HomeScreenState extends State<HomeScreen> {
                 element.dataCompra.convertToDateTime().year == now.year)
             .toList();
       }
-
-      double totalEmProdutosSum =
-          produtos.fold(0, (sum, item) => sum + item.valorVendaPrevisao);
-
-      produtos.sort((a, b) => (a.valorVendaPrevisao - a.valorCompra)
-          .compareTo(b.valorVendaPrevisao - b.valorCompra));
-
-      final double lucroEstimadoSum = produtos.fold(
-          0, (sum, item) => sum + (item.valorVendaPrevisao - item.valorCompra));
-
-      final double valorInvestidoSum =
-          produtos.fold(0, (sum, item) => sum + item.valorCompra);
-
-      final numberFormatBr = NumberFormat.simpleCurrency(locale: "pt_Br");
-
-      final String totalEmProdutosString =
-          numberFormatBr.format(totalEmProdutosSum);
-      final String lucroEstimadoString =
-          numberFormatBr.format(lucroEstimadoSum);
-      final String valorInvestidoString =
-          numberFormatBr.format(valorInvestidoSum);
-
-      setState(() {
-        totalEmProdutos = totalEmProdutosString;
-        produtoMaisLucrativo = produtos.isEmpty ? "" : produtos.last.nome;
-        lucroEstimado = lucroEstimadoString;
-        valorInvestido = valorInvestidoString;
-      });
     }
   }
 
   getVendas() async {
-    List<Venda> venda = await VendaDAO().readAll();
-    List<Produto> produtos = await ProdutoDAO().readAll();
+    vendas = await VendaDAO().readAll();
 
     DateTime now = DateTime.now();
-
     if (itemDropdownAtual == 'Mensal') {
-      venda = venda
+      vendas = vendas
           .where((element) =>
               element.dataVenda.convertToDateTime().month == now.month &&
               element.dataVenda.convertToDateTime().year == now.year)
           .toList();
-
-      produtos = produtos
-          .where((element) =>
-              element.dataCompra.convertToDateTime().month == now.month &&
-              element.dataCompra.convertToDateTime().year == now.year)
-          .toList();
     } else if (itemDropdownAtual == 'Anual') {
-      venda = venda
+      vendas = vendas
           .where((element) =>
               element.dataVenda.convertToDateTime().year == now.year)
           .toList();
-      produtos = produtos
-          .where((element) =>
-              element.dataCompra.convertToDateTime().year == now.year)
-          .toList();
     }
+  }
 
+  getInventario() async {
+    double totalEmProdutosSum =
+        produtos.fold(0, (sum, item) => sum + item.valorVendaPrevisao);
+
+    produtos.sort((a, b) => (a.valorVendaPrevisao - a.valorCompra)
+        .compareTo(b.valorVendaPrevisao - b.valorCompra));
+
+    final double lucroEstimadoSum = produtos.fold(
+        0, (sum, item) => sum + (item.valorVendaPrevisao - item.valorCompra));
+
+    final double valorInvestidoSum =
+        produtos.fold(0, (sum, item) => sum + item.valorCompra);
+
+    final numberFormatBr = NumberFormat.simpleCurrency(locale: "pt_Br");
+
+    final String totalEmProdutosString =
+        numberFormatBr.format(totalEmProdutosSum);
+    final String lucroEstimadoString = numberFormatBr.format(lucroEstimadoSum);
+    final String valorInvestidoString =
+        numberFormatBr.format(valorInvestidoSum);
+
+    setState(() {
+      totalEmProdutos = totalEmProdutosString;
+      produtoMaisLucrativo = produtos.isEmpty ? "" : produtos.last.nome;
+      lucroEstimado = lucroEstimadoString;
+      valorInvestido = valorInvestidoString;
+    });
+  }
+
+  getVendasCard() async {
     double totalVendasSum =
-        venda.fold(0, (sum, item) => sum + item.valorTotalVenda);
+        vendas.fold(0, (sum, item) => sum + item.valorTotalVenda);
     final numberFormatBr = NumberFormat.simpleCurrency(locale: "pt_Br");
 
     final double valorTotalCompra =
@@ -258,49 +254,33 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   getComprasClientes() async {
-    List<Venda> vendaProduto = await VendaDAO().readAll();
-    if (vendaProduto.isNotEmpty) {
-      DateTime now = DateTime.now();
-
-      if (itemDropdownAtual == 'Mensal') {
-        vendaProduto = vendaProduto
-            .where((element) =>
-                element.dataVenda.convertToDateTime().month == now.month &&
-                element.dataVenda.convertToDateTime().year == now.year)
-            .toList();
-      } else if (itemDropdownAtual == 'Anual') {
-        vendaProduto = vendaProduto
-            .where((element) =>
-                element.dataVenda.convertToDateTime().year == now.year)
-            .toList();
-      }
-
-      Map vendasMap = <int, int>{};
-      for (var venda in vendaProduto) {
-        vendasMap[venda.clienteId] = !vendasMap.containsKey(venda.clienteId)
-            ? (1)
-            : (vendasMap[venda.clienteId] + 1);
-      }
-
-      var vendasMapSorted = Map.fromEntries(vendasMap.entries.toList()
-        ..sort((e1, e2) => e1.value.compareTo(e2.value)));
-
-      final int clienteIdMenosCompra = vendasMapSorted.entries.first.key;
-      final int clienteIdMaisCompra = vendasMapSorted.entries.last.key;
-
-      final clienteMenosCompra =
-          await ClienteDAO().readAllById(clienteIdMenosCompra);
-      final clienteMaisCompra =
-          await ClienteDAO().readAllById(clienteIdMaisCompra);
-
-      setState(() {
-        nomeClienteMenosCompra =
-            clienteMenosCompra.nome == clienteMaisCompra.nome
-                ? ''
-                : clienteMenosCompra.nome;
-
-        nomeClienteMaisCompra = clienteMaisCompra.nome;
-      });
+    if (vendas.isEmpty) {
+      return;
     }
+
+    Map vendasMap = <int, int>{};
+    for (var venda in vendas) {
+      vendasMap[venda.clienteId] = !vendasMap.containsKey(venda.clienteId)
+          ? (1)
+          : (vendasMap[venda.clienteId] + 1);
+    }
+
+    var vendasMapSorted = Map.fromEntries(vendasMap.entries.toList()
+      ..sort((e1, e2) => e1.value.compareTo(e2.value)));
+
+    final int clienteIdMenosCompra = vendasMapSorted.entries.first.key;
+    final int clienteIdMaisCompra = vendasMapSorted.entries.last.key;
+
+    final clienteMenosCompra =
+        await ClienteDAO().readById(clienteIdMenosCompra);
+    final clienteMaisCompra = await ClienteDAO().readById(clienteIdMaisCompra);
+
+    setState(() {
+      nomeClienteMenosCompra = clienteMenosCompra.nome == clienteMaisCompra.nome
+          ? ''
+          : clienteMenosCompra.nome;
+
+      nomeClienteMaisCompra = clienteMaisCompra.nome;
+    });
   }
 }

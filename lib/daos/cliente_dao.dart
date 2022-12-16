@@ -54,7 +54,7 @@ class ClienteDAO {
     return result;
   }
 
-  Future<Cliente> readAllById(int id) async {
+  Future<Cliente> readById(int id) async {
     final db = await getDatabase();
     final List<Map<String, dynamic>> maps =
         await db.query("Cliente", where: ' id = ? ', whereArgs: [id]);
