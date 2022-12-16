@@ -450,7 +450,7 @@ class _VendaCadastroScreenState extends State<VendaCadastroScreen> {
             await updateVenda(venda);
 
             exibirMensagemSucesso(context, "Venda realizada com sucesso.");
-            Navigator.pop(context);
+            Navigator.of(context).pop();
           });
         } else {
           venda.id = widget.venda.id;
