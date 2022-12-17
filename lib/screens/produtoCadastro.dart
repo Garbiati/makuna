@@ -43,6 +43,7 @@ class _ProdutoCadastroScreenState extends State<ProdutoCadastroScreen> {
           actions: [
             IconButton(
                 icon: const Icon(Icons.save),
+                iconSize: 38,
                 onPressed: () {
                   salvarFormulario();
                 })
@@ -115,9 +116,9 @@ class _ProdutoCadastroScreenState extends State<ProdutoCadastroScreen> {
       _descricaoController.text = widget.produto.descricao;
       _dataCompraController.text = widget.produto.dataCompra;
       _valorCompraController.text =
-          widget.produto.valorCompra.convertDoubleToRealCurrency();
+          widget.produto.valorCompra.convertDoubleToRealCurrency(true);
       _valorVendaPrevisaoController.text =
-          widget.produto.valorVendaPrevisao.convertDoubleToRealCurrency();
+          widget.produto.valorVendaPrevisao.convertDoubleToRealCurrency(true);
       _quantidadeProdutoController.text = widget.produto.quantidade.toString();
     }
   }

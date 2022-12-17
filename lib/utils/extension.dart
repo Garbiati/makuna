@@ -16,7 +16,9 @@ extension RealCurrency on String {
 }
 
 extension RealCurrenCy on double {
-  String convertDoubleToRealCurrency() {
+  String convertDoubleToRealCurrency(bool simbolo) {
+    if (!simbolo) return (this).obterRealSemSimbolo();
+
     return UtilBrasilFields.obterReal((this));
   }
 }

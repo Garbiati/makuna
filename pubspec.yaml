@@ -22,6 +22,7 @@ dependencies:
   avatars: ^3.0.0
   brasil_fields: 1.8.0
   masked_text: ^1.1.2
+  number_inc_dec: ^0.8.0
 
 dev_dependencies:
   flutter_test:
