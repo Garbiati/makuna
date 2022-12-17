@@ -19,8 +19,13 @@ telefone CHAR(16) NOT NULL,
 email VARCHAR(150) NOT NULL,
 urlAvatar VARCHAR(300) NOT NULL,
 dataCadastro VARCHAR(10) NOT NULL,
-ativo INTEGER NOT NULL
-
+ativo INTEGER NOT NULL,
+endereco VARCHAR(255) NULL,
+numero VARCHAR(10) NULL,
+bairro VARCHAR(255) NULL,
+cep VARCHAR(9) NULL,
+cidade VARCHAR(150) NULL,
+estado VARCHAR(50)NULL,
 );
 ''';
 

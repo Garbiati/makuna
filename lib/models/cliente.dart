@@ -7,6 +7,12 @@ class Cliente {
   final String urlAvatar;
   final String dataCadastro;
   final int ativo;
+  final String? endereco;
+  final String? numero;
+  final String? bairro;
+  final String? cep;
+  final String? cidade;
+  final String? estado;
 
   Cliente(
       {this.id,
@@ -16,7 +22,13 @@ class Cliente {
       required this.email,
       required this.urlAvatar,
       required this.dataCadastro,
-      required this.ativo});
+      required this.ativo,
+      this.endereco,
+      this.numero,
+      this.bairro,
+      this.cep,
+      this.cidade,
+      this.estado});
 
   Map<String, dynamic> toMap() {
     return {
@@ -28,6 +40,11 @@ class Cliente {
       "urlAvatar": urlAvatar,
       "dataCadastro": dataCadastro,
       "ativo": ativo,
+      "endereco": endereco,
+      "numero": numero,
+      "cep": cep,
+      "cidade": cidade,
+      "estado": estado
     };
   }
 }

@@ -27,6 +27,12 @@ class ClienteDAO {
         urlAvatar: maps[index]['urlAvatar'],
         dataCadastro: maps[index]['dataCadastro'],
         ativo: maps[index]['ativo'],
+        endereco: maps[index]['endereco'],
+        numero: maps[index]['numero'],
+        bairro: maps[index]['bairro'],
+        cep: maps[index]['cep'],
+        cidade: maps[index]['cidade'],
+        estado: maps[index]['estado'],
       );
     });
 
@@ -48,6 +54,12 @@ class ClienteDAO {
         urlAvatar: maps[index]['urlAvatar'],
         dataCadastro: maps[index]['dataCadastro'],
         ativo: maps[index]['ativo'],
+        endereco: maps[index]['endereco'],
+        numero: maps[index]['numero'],
+        bairro: maps[index]['bairro'],
+        cep: maps[index]['cep'],
+        cidade: maps[index]['cidade'],
+        estado: maps[index]['estado'],
       );
     });
 

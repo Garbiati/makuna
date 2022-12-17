@@ -7,6 +7,7 @@ import 'package:makuna/utils/customStyles.dart';
 import 'package:makuna/utils/usuarioHelper.dart';
 import 'package:makuna/utils/util.dart';
 import '../components/input_email_form.dart';
+import 'package:masked_text/masked_text.dart';
 
 class ClienteCadastroScreen extends StatefulWidget {
   const ClienteCadastroScreen({super.key, required this.cliente});
@@ -22,6 +23,12 @@ class _ClienteCadastroScreenState extends State<ClienteCadastroScreen> {
   final _nomeController = TextEditingController();
   final _telefoneController = TextEditingController();
   final _emailController = TextEditingController();
+  final _enderecoController = TextEditingController();
+  final _numeroController = TextEditingController();
+  final _bairroController = TextEditingController();
+  final _cepController = TextEditingController();
+  final _cidadeController = TextEditingController();
+  final _estadoController = TextEditingController();
 
 // N= Novo E = Editando
   String modoTela = '';
@@ -56,6 +63,12 @@ class _ClienteCadastroScreenState extends State<ClienteCadastroScreen> {
                         fieldNome(),
                         fieldTelefone(),
                         fieldEmail(),
+                        fieldEndereco(),
+                        fieldNumero(),
+                        fieldBairro(),
+                        fieldCep(),
+                        fieldCidade(),
+                        fieldEstado(),
                       ]),
                 ))));
   }
@@ -99,6 +112,57 @@ class _ClienteCadastroScreenState extends State<ClienteCadastroScreen> {
     );
   }
 
+  Widget fieldEndereco() {
+    return TextField(
+      decoration: InputDecoration(labelText: 'Endereço do cliente'),
+      controller: _enderecoController,
+      maxLength: 255,
+    );
+  }
+
+  Widget fieldNumero() {
+    return TextField(
+      decoration: InputDecoration(labelText: 'Numero do endereço do cliente'),
+      keyboardType: TextInputType.number,
+      controller: _numeroController,
+      maxLength: 10,
+    );
+  }
+
+  Widget fieldBairro() {
+    return TextField(
+      decoration: InputDecoration(labelText: 'Bairro do cliente'),
+      controller: _bairroController,
+      maxLength: 255,
+    );
+  }
+
+  Widget fieldCep() {
+    return MaskedTextField(
+      decoration: InputDecoration(labelText: 'Cep do cliente'),
+      controller: _cepController,
+      keyboardType: TextInputType.number,
+      mask: '#####-###',
+      maxLength: 9,
+    );
+  }
+
+  Widget fieldCidade() {
+    return TextField(
+      decoration: InputDecoration(labelText: 'Cidade do cliente'),
+      controller: _cidadeController,
+      maxLength: 150,
+    );
+  }
+
+  Widget fieldEstado() {
+    return TextField(
+      controller: _estadoController,
+      decoration: InputDecoration(labelText: 'Estado do Cliente'),
+      maxLength: 50,
+    );
+  }
+
 //Telas e validações
   void configuraTitulo() {
     modoTela == "N"
@@ -111,6 +175,12 @@ class _ClienteCadastroScreenState extends State<ClienteCadastroScreen> {
       _nomeController.text = widget.cliente.nome;
       _telefoneController.text = widget.cliente.telefone;
       _emailController.text = widget.cliente.email;
+      _enderecoController.text = widget.cliente.endereco!;
+      _numeroController.text = widget.cliente.numero!;
+      _bairroController.text = widget.cliente.bairro!;
+      _cepController.text = widget.cliente.cep!;
+      _cidadeController.text = widget.cliente.cidade!;
+      _estadoController.text = widget.cliente.estado!;
     }
   }
 
@@ -119,13 +189,20 @@ class _ClienteCadastroScreenState extends State<ClienteCadastroScreen> {
     if (_formKey.currentState!.validate()) {
       try {
         Cliente cliente = Cliente(
-            usuarioId: usuarioId,
-            nome: _nomeController.text,
-            telefone: _telefoneController.text,
-            email: _emailController.text,
-            urlAvatar: "",
-            dataCadastro: DateTime.now().toString(),
-            ativo: 1);
+          usuarioId: usuarioId,
+          nome: _nomeController.text,
+          telefone: _telefoneController.text,
+          email: _emailController.text,
+          urlAvatar: "",
+          dataCadastro: DateTime.now().toString(),
+          ativo: 1,
+          endereco: _enderecoController.text,
+          numero: _numeroController.text,
+          bairro: _bairroController.text,
+          cep: _cepController.text,
+          cidade: _cidadeController.text,
+          estado: _estadoController.text,
+        );
 
         if (modoTela == "N") {
           insertCliente(cliente);
