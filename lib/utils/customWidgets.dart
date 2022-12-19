@@ -43,8 +43,12 @@ Widget exibirListaVazia(BuildContext context, String titulo) => Padding(
                 IconButton(
                   icon: const Icon(Icons.help),
                   iconSize: 30,
-                  onPressed: () => exibirMensagem(context, "Novo cadastro",
-                      "Para criar um novo registro, utilize o botão + no canto superior direito da tela."),
+                  onPressed: () => exibirMensagem(
+                      context,
+                      "Novo cadastro",
+                      "Para criar um novo registro, utilize o botão + no canto superior direito da tela.",
+                      Image.asset("images/criarRegistro.png",
+                          width: 200, height: 200)),
                 )
               ],
             )
@@ -54,7 +58,7 @@ Widget exibirListaVazia(BuildContext context, String titulo) => Padding(
     )));
 
 Future<void> exibirMensagem(
-    BuildContext context, String titulo, String conteudo) {
+    BuildContext context, String titulo, String conteudo, Image image) {
   return showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -71,11 +75,47 @@ Future<void> exibirMensagem(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Image.asset("images/criarRegistro.png",
-                    width: 200, height: 200),
+                image,
                 Text(
                   conteudo,
                   style: dialogMessageTextStyle,
+                ),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            ElevatedButton(
+              child: const Text('Ok'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      });
+}
+
+Future<void> exibirMensagemHome(
+    BuildContext context, String titulo, String conteudo) {
+  return showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          actionsAlignment: MainAxisAlignment.center,
+          title: Text(
+            titulo,
+            style: dialogMessageTextStyle,
+            textAlign: TextAlign.center,
+          ),
+          content: SizedBox(
+            width: 450,
+            height: 200,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  conteudo,
+                  style: descCardTextStyle,
                 ),
               ],
             ),

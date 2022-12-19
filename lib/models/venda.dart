@@ -4,7 +4,7 @@ class Venda {
   final String orderNumber;
   final int clienteId;
   final String detail;
-  final double valorTotalVenda;
+  double valorTotalVenda;
   final String dataVenda;
   final int ativo;
 

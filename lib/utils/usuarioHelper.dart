@@ -18,7 +18,7 @@ void criaUsuarioInicial() async {
   }
 }
 
-Usuario GetUsuario(int usuarioId) {
+Usuario getUsuario(int usuarioId) {
   return Usuario(
       nome: "Usuario",
       sobreNome: "",

@@ -15,6 +15,16 @@ extension RealCurrency on String {
   }
 }
 
+extension DateTimeFormat on String {
+  DateTime convertToDateTime() {
+    final String dia = substring(0, 2);
+    final String mes = substring(3, 5);
+    final String ano = substring(6);
+    final String formatedDate = "$ano$mes$dia";
+    return DateTime.parse(formatedDate);
+  }
+}
+
 extension RealCurrenCy on double {
   String convertDoubleToRealCurrency(bool simbolo) {
     if (!simbolo) return (this).obterRealSemSimbolo();
