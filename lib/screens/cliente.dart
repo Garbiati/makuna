@@ -3,9 +3,11 @@ import 'package:flutter/material.dart';
 
 import 'package:makuna/models/cliente.dart';
 import 'package:makuna/screens/clienteCadastro.dart';
+import 'package:makuna/screens/operacaoRealizada.dart';
 import 'package:makuna/utils/customStyles.dart';
 import 'package:makuna/utils/customWidgets.dart';
 import 'package:makuna/daos/cliente_dao.dart';
+import 'package:makuna/utils/util.dart';
 
 class ClienteScreen extends StatefulWidget {
   const ClienteScreen({super.key});
@@ -51,7 +53,24 @@ class _ClienteScreenState extends State<ClienteScreen> {
   Widget _buildBodyScreen() {
     return clientes.isNotEmpty
         ? _exibirLista()
-        : exibirListaVazia(context, "Nenhum cliente cadastrado.");
+        : Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              exibirListaVazia(context, "Nenhum cliente cadastrado."),
+              ElevatedButton(
+                  onPressed: () {
+                    somenteDevModeInserirClientes();
+
+                    Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    const OperacaoRealizadaScreen()))
+                        .then((produto) => getAllClientes());
+                  },
+                  child: const Text("DEVMOD: Auto Preencher"))
+            ],
+          );
   }
 
   Widget _exibirLista() {

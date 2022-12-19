@@ -2,9 +2,11 @@ import 'package:brasil_fields/brasil_fields.dart';
 import 'package:flutter/material.dart';
 import 'package:makuna/daos/produto_dao.dart';
 import 'package:makuna/models/produto.dart';
+import 'package:makuna/screens/operacaoRealizada.dart';
 import 'package:makuna/screens/produtoCadastro.dart';
 import 'package:makuna/utils/customStyles.dart';
 import 'package:makuna/utils/customWidgets.dart';
+import 'package:makuna/utils/util.dart';
 
 class ProdutoScreen extends StatefulWidget {
   const ProdutoScreen({super.key});
@@ -59,7 +61,24 @@ class _ProdutoScreenState extends State<ProdutoScreen> {
   Widget _buildBodyScreen() {
     return produtos.isNotEmpty
         ? _exibirLista()
-        : exibirListaVazia(context, "Nenhum produto cadastrado.");
+        : Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              exibirListaVazia(context, "Nenhum produto cadastrado."),
+              ElevatedButton(
+                  onPressed: () {
+                    somenteDevModeInserirProdutos();
+
+                    Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    const OperacaoRealizadaScreen()))
+                        .then((produto) => getAllProdutos());
+                  },
+                  child: const Text("DEVMOD: Auto Preencher"))
+            ],
+          );
   }
 
   Widget _exibirLista() {
@@ -69,16 +88,8 @@ class _ProdutoScreenState extends State<ProdutoScreen> {
         itemCount: produtos.length);
   }
 
-  Widget fieldQuantidade(Produto produto) => Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          const Text("Qtd.", style: tituloMenuTextStyle),
-          Text(
-            produto.quantidade.toString(),
-            style: descMenuTextStyle,
-          )
-        ],
+  Widget fieldQuantidade(Produto produto) => Text(
+        "Quantidade:${produto.quantidade}",
       );
 
   Widget _buildItem(int index) {
@@ -88,11 +99,20 @@ class _ProdutoScreenState extends State<ProdutoScreen> {
       child: Container(
         decoration: cardBoxStyle(),
         child: ListTile(
-          leading: fieldQuantidade(
-              produto), // buildSvgIcon("images/icoProdutoDefault.svg"),
+          leading: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              SizedBox(
+                width: 30,
+                child: Text(
+                  "${produto.quantidade}x ",
+                  style: const TextStyle(fontSize: 16),
+                ),
+              )
+            ],
+          ),
           title: Text(produto.nome),
-          subtitle:
-              Text(UtilBrasilFields.obterReal(produto.valorVendaPrevisao)),
+          subtitle: Text(produto.descricao),
           onLongPress: () {
             deleteProdutosById(produto.id!);
           },

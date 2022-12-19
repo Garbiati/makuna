@@ -32,9 +32,11 @@ class InputForm extends StatelessWidget {
       inputFormatters: [mask],
       keyboardType: tipoImput,
       maxLength: maxLength,
-      decoration: InputDecoration(hintText: hint, labelText: label),
+      decoration: InputDecoration(
+          hintText: hint, labelText: label, alignLabelWithHint: true),
       controller: controller,
       textAlign: textAlign == null ? TextAlign.start : textAlign!,
+      
       validator: ((value) {
         if (value == null || value.isEmpty) {
           return validationMsg;

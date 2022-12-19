@@ -75,7 +75,7 @@ class InputRealForm extends StatelessWidget {
           FilteringTextInputFormatter.digitsOnly,
           CurrencyInputFormatter()
         ],
-        maxLength: 17,
+        maxLength: 12,
         keyboardType: TextInputType.datetime,
         decoration: InputDecoration(hintText: hint, labelText: label),
         controller: controller,

@@ -57,53 +57,81 @@ class _ProdutoCadastroScreenState extends State<ProdutoCadastroScreen> {
                   child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            fieldQuantidade(),
+                            fieldData(),
+                          ],
+                        ),
                         InputForm(
-                          hint: "Ex.: iPhone 14, RTX 4090",
-                          label: "Nome do produto",
+                          hint: "Ex.: iPhone 14 Pro Max",
+                          label: "Nome",
                           validationMsg: "Insira o nome do produto",
                           controller: _nomeController,
                           maxLength: 50,
                         ),
                         InputForm(
-                          hint: "Ex.: Pro Max preto 500 GB",
-                          label: "Modelo ou descrição do produto",
+                          hint: "Ex.: Preto de 500 GB",
+                          label: "Modelo",
                           validationMsg:
                               "Insira o modelo ou descrição do produto",
                           controller: _descricaoController,
                           maxLength: 50,
                         ),
-                        InputDataForm(
-                            hint: "Ex.: 25/10/2022",
-                            label: "Data de compra",
-                            validationMsg:
-                                "Insira a data que o produto foi comprado",
-                            controller: _dataCompraController),
-                        InputRealForm(
-                            hint: "Ex.: 7.500,00",
-                            label: "Custo do produto",
-                            validationMsg: "Insira o valor de custo do produto",
-                            controller: _valorCompraController),
-                        TextField(
-                            decoration: const InputDecoration(
-                              labelText: 'Quantidade',
-                              hintText: '10',
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            SizedBox(
+                              width: 150,
+                              child: InputRealForm(
+                                  hint: "Ex.: 7.500,00",
+                                  label: "Valor do custo",
+                                  validationMsg:
+                                      "Insira o valor de custo do produto",
+                                  controller: _valorCompraController),
                             ),
-                            keyboardType: TextInputType.number,
-                            inputFormatters: <TextInputFormatter>[
-                              FilteringTextInputFormatter.digitsOnly
-                            ],
-                            controller: _quantidadeProdutoController),
-                        InputRealForm(
-                            hint: "Ex.: 10.000,00",
-                            label: "Valor de revenda",
-                            validationMsg:
-                                "Insira o valor que pretende revender",
-                            controller: _valorVendaPrevisaoController),
+                            SizedBox(
+                              width: 150,
+                              child: InputRealForm(
+                                  hint: "Ex.: 10.000,00",
+                                  label: "Valor de revenda",
+                                  validationMsg:
+                                      "Insira o valor que pretende revender",
+                                  controller: _valorVendaPrevisaoController),
+                            ),
+                          ],
+                        ),
                       ]),
                 ))));
   }
 
 //Telas e validações
+  Widget fieldData() {
+    return InputDataForm(
+        hint: "Ex.: 25/10/2022",
+        label: "Data",
+        validationMsg: "Insira a data que o produto foi comprado",
+        controller: _dataCompraController);
+  }
+
+  Widget fieldQuantidade() {
+    return SizedBox(
+        width: 65,
+        child: InputForm(
+          hint: "",
+          label: "QTD.",
+          validationMsg: "Quantidade inválida",
+          controller: _quantidadeProdutoController,
+          maxLength: 3,
+          textAlign: TextAlign.end,
+          tipoImput: TextInputType.number,
+          customMask: "###",
+        ));
+  }
+
   void configuraTitulo() {
     modoTela == "N"
         ? tituloTela = "Novo produto"
@@ -111,6 +139,8 @@ class _ProdutoCadastroScreenState extends State<ProdutoCadastroScreen> {
   }
 
   void preencherCampos() {
+    _quantidadeProdutoController.text = "1";
+    _dataCompraController.text = getDataHoje();
     if (modoTela == "E") {
       _nomeController.text = widget.produto.nome;
       _descricaoController.text = widget.produto.descricao;
