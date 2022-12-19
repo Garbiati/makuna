@@ -17,7 +17,10 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  final title = const Text("Makuna");
+  final title = const Text(
+    "Makuna",
+    textAlign: TextAlign.center,
+  );
   String totalEmProdutos = '0,00';
   String produtoMaisLucrativo = '';
   String lucroEstimado = '0,00';

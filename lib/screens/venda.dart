@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:makuna/daos/cliente_dao.dart';
 import 'package:makuna/daos/produto_dao.dart';
+import 'package:makuna/daos/vendaProduto_dao.dart';
 import 'package:makuna/daos/venda_dao.dart';
 import 'package:makuna/models/cliente.dart';
 import 'package:makuna/models/produto.dart';
 import 'package:makuna/models/venda.dart';
+import 'package:makuna/models/vendaProduto.dart';
 import 'package:makuna/screens/vendaCadastro.dart';
 import 'package:makuna/utils/customStyles.dart';
 import 'package:makuna/utils/customWidgets.dart';
+import 'package:makuna/utils/extension.dart';
 import 'package:makuna/utils/usuarioHelper.dart';
 
 class VendaScreen extends StatefulWidget {
@@ -52,7 +55,7 @@ class _VendaScreenState extends State<VendaScreen> {
   }
 
   Widget _buildBodyScreen() {
-    return clientes.isNotEmpty
+    return vendas.isNotEmpty
         ? _exibirLista()
         : exibirListaVazia(context, "Nenhuma venda realizada.");
   }
@@ -68,15 +71,23 @@ class _VendaScreenState extends State<VendaScreen> {
     Venda venda = vendas[index];
     String nomeCliente =
         clientes.where((c) => c.id == venda.clienteId).first.nome;
-    String nomeProduto = venda.orderNumber;
+    String orderNumber = venda.orderNumber;
+    String data = venda.dataVenda;
     return Padding(
       padding: cardPadding,
       child: Container(
         decoration: cardBoxStyle(),
         child: ListTile(
-          leading: buildSvgIcon("images/icoVerificar.svg"),
-          title: Text(nomeProduto),
-          subtitle: Text(nomeCliente),
+          leading: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(orderNumber),
+              Text(data),
+            ],
+          ),
+          title: Text(nomeCliente),
+          subtitle:
+              Text(venda.valorTotalVenda.convertDoubleToRealCurrency(true)),
           onTap: () {
             Venda venda = vendas[index];
             Navigator.push(
@@ -130,6 +141,13 @@ class _VendaScreenState extends State<VendaScreen> {
 
   deleteVendasById(int id) async {
     await VendaDAO().deleteVenda(id);
+
+    List<VendaProduto> lista = await VendaProdutoDAO().readByVendaId(id);
+
+    for (var element in lista) {
+      await VendaProdutoDAO().deleteVendaProduto(element.id!);
+    }
+
     getAllVendas();
   }
 }

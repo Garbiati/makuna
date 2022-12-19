@@ -221,7 +221,7 @@ class _VendaCadastroScreenState extends State<VendaCadastroScreen> {
                         produtoId: produtoIdSelecionado,
                         quantidade: quantidade,
                         usuarioId: usuarioId,
-                        valorVenda: valorVendaUnidade,
+                        valorVenda: valorVendaUnidade * quantidade,
                         vendaId: 0));
                   }
 
@@ -385,12 +385,14 @@ class _VendaCadastroScreenState extends State<VendaCadastroScreen> {
     return SizedBox(
         width: 50,
         child: InputForm(
-          hint: "1",
+          hint: "",
           label: "QTD.",
           validationMsg: "Quantidade inválida",
           controller: _quantidadeController,
           maxLength: 3,
           textAlign: TextAlign.end,
+          tipoImput: TextInputType.number,
+          customMask: "###",
         ));
   }
 
@@ -447,8 +449,10 @@ class _VendaCadastroScreenState extends State<VendaCadastroScreen> {
             }
 
             venda.valorTotalVenda = calcularValorTotal();
-            await updateVenda(venda);
 
+            await updateVenda(venda);
+          });
+          setState(() {
             exibirMensagemSucesso(context, "Venda realizada com sucesso.");
             Navigator.of(context).pop();
           });
@@ -461,8 +465,10 @@ class _VendaCadastroScreenState extends State<VendaCadastroScreen> {
                 updateVendaProduto(vendaProduto);
               });
 
-          exibirMensagemSucesso(context, "Venda atualizada com sucesso.");
-          Navigator.pop(context);
+          setState(() {
+            exibirMensagemSucesso(context, "Venda atualizada com sucesso.");
+            Navigator.pop(context);
+          });
         }
       } catch (e) {
         exibirMensagemFalha(context, "Falha ao salvar as informações");
